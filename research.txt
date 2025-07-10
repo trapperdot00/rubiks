@@ -30,7 +30,7 @@ D from initial:
 	g0 g1 g2 g3 g4 g5 r6 r7 r8
 	o0 o1 o2 o3 o4 o5 g6 g7 g8
 	b0 b1 b2 b3 b4 b5 o6 o7 o8
-	w0 w1 w2 w3 w4 w5 w6 w7 w8	<-- rotate_face
+	w6 w3 w0 w7 w4 w1 w8 w5 w2	<-- rotate_face
 
 D' from initial:
 	y0 y1 y2 y3 y4 y5 y6 y7 y8	<-- none
@@ -38,7 +38,7 @@ D' from initial:
 	g0 g1 g2 g3 g4 g5 o6 o7 o8
 	o0 o1 o2 o3 o4 o5 b6 b7 b8
 	b0 b1 b2 b3 b4 b5 r6 r7 r8
-	w0 w1 w2 w3 w4 w5 w6 w7 w8	<-- rotate_face
+	w2 w5 w8 w1 w4 w7 w0 w3 w6	<-- rotate_face
 
 R from initial:
 	y0 y1 r2 y3 y4 r5 y6 y7 r8

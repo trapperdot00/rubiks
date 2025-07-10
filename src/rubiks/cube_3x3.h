@@ -16,7 +16,7 @@ public:
 	{}
 	int width() const override { return 3; }
 	int height() const override { return 3; }
-	std::shared_ptr<tile_base> operator[](int i) const { return tile_data[i]; }
+	std::shared_ptr<tile_base> operator[](int i) const override { return tile_data[i]; }
 
 	cube_3x3& turn_up(bool prime = false);
 	cube_3x3& turn_down(bool prime = false);
@@ -25,23 +25,14 @@ public:
 	cube_3x3& turn_front(bool prime = false);
 	cube_3x3& turn_back(bool prime = false);
 private:
-	void rotate_face(int block_no, bool prime = false);
+	void rotate_face(face n, bool prime = false);
+	std::vector<std::shared_ptr<tile_base>> extract_tiles(face n, slice o);
 
 	std::vector<std::shared_ptr<tile_base>> tile_data;
 };
 
 template <typename tile_type>
-std::ostream& operator<<(std::ostream& os, const cube_3x3<tile_type>& cube) {
-	const int fn = cube.face_num();
-	const int tpf = cube.tiles_per_face();
-	for (int face = 0; face < fn; ++face) {
-		for (int tile = 0; tile < tpf; ++tile) {
-			os << cube[face * tpf + tile]->rep() << ' ';
-		}
-		os << '\n';
-	}
-	return os;
-}
+std::ostream& operator<<(std::ostream&, const cube_3x3<tile_type>&);
 
 }	// rubiks namespace
 

@@ -2,6 +2,8 @@
 #define CUBE_BASE_H
 
 #include "tile_base.h"
+#include "face.h"
+#include "slice.h"
 
 #include <vector>
 #include <memory>

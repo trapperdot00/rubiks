@@ -41,7 +41,7 @@ std::ostream& operator<<(std::ostream& os, const cube_3x3<tile_type>& cube) {
 	const int tpf = cube.tiles_per_face();
 	for (int face = 0; face < fn; ++face) {
 		for (int tile = 0; tile < tpf; ++tile) {
-			os << cube[face * tpf + tile]->rep();
+			os << cube[face * tpf + tile]->rep() << ' ';
 		}
 		os << '\n';
 	}

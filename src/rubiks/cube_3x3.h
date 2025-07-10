@@ -18,20 +18,15 @@ public:
 	int height() const override { return 3; }
 	std::shared_ptr<tile_base> operator[](int i) const { return tile_data[i]; }
 
-	cube_3x3& turn_up();
-	cube_3x3& turn_down();
-	cube_3x3& turn_right();
-	cube_3x3& turn_left();
-	cube_3x3& turn_front();
-	cube_3x3& turn_back();
-	
-	cube_3x3& turn_up_prime();
-	cube_3x3& turn_down_prime();
-	cube_3x3& turn_right_prime();
-	cube_3x3& turn_left_prime();
-	cube_3x3& turn_front_prime();
-	cube_3x3& turn_back_prime();
+	cube_3x3& turn_up(bool prime = false);
+	cube_3x3& turn_down(bool prime = false);
+	cube_3x3& turn_right(bool prime = false);
+	cube_3x3& turn_left(bool prime = false);
+	cube_3x3& turn_front(bool prime = false);
+	cube_3x3& turn_back(bool prime = false);
 private:
+	void rotate_face(int block_no, bool prime = false);
+
 	std::vector<std::shared_ptr<tile_base>> tile_data;
 };
 

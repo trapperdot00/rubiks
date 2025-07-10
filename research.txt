@@ -101,3 +101,5 @@ B' from initial:
 	r0 r1 r2 r3 r4 r5 r6 r7 r8	<-- none
 	g0 g1 y0 g3 g4 y1 g6 g7 y2
 	o2 o5 o8 o1 o4 o7 o0 o3 o6	<-- rotate_face
+	w6 b1 b2 w7 b4 b5 w8 b7 b8
+	w0 w1 w2 w3 w4 w5 g8 g5 g2

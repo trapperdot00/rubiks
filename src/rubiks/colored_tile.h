@@ -1,5 +1,5 @@
-#ifndef COLORED_TILE
-#define COLORED_TILE
+#ifndef COLORED_TILE_H
+#define COLORED_TILE_H
 
 #include "tile_base.h"
 #include "color.h"

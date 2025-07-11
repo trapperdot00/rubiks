@@ -7,8 +7,8 @@ void game() {
 	using namespace rubiks;
 	static const std::map<char, cube_3x3<colored_numbered_tile>& (cube_3x3<colored_numbered_tile>::*)(bool)> f {
 		{'u', &cube_3x3<colored_numbered_tile>::turn_up},
-		{'d', &cube_3x3<colored_numbered_tile>::turn_down},
-		{'r', &cube_3x3<colored_numbered_tile>::turn_right},
+//		{'d', &cube_3x3<colored_numbered_tile>::turn_down},
+//		{'r', &cube_3x3<colored_numbered_tile>::turn_right},
 //		{'l', &cube_3x3<colored_numbered_tile>::turn_left},
 //		{'f', &cube_3x3<colored_numbered_tile>::turn_front},
 //		{'b', &cube_3x3<colored_numbered_tile>::turn_back},

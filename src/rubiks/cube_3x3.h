@@ -1,22 +1,27 @@
 #ifndef CUBE_3X3_H
 #define CUBE_3X3_H
 
-#include "cube_base.h"
+#include "tile_base.h"
+#include "face.h"
+#include "slice.h"
+#include "../utils/container_append.h"
 
 #include <iostream>
+#include <array>
+#include <deque>
+#include <vector>
+#include <memory>
+#include <stdexcept>
+#include <iterator>
+#include <utility>
 
 namespace rubiks {
 
 template <typename tile_type>
-class cube_3x3 : public cube_base {
+class cube_3x3 {
 public:
-	cube_3x3() :
-		cube_base{6, 9},
-		tile_data{init_tile_data<tile_type>(face_num(), tiles_per_face())}
-	{}
-	int width() const override { return 3; }
-	int height() const override { return 3; }
-	std::shared_ptr<tile_base> operator[](int i) const override { return tile_data[i]; }
+	cube_3x3() { reset(); }
+	void reset();
 
 	cube_3x3& turn_up(bool prime = false);
 	cube_3x3& turn_down(bool prime = false);
@@ -24,11 +29,23 @@ public:
 	cube_3x3& turn_left(bool prime = false);
 	cube_3x3& turn_front(bool prime = false);
 	cube_3x3& turn_back(bool prime = false);
+
+	static constexpr int width = 3;
+	static constexpr int height = 3;
+	static constexpr int face_count = 6;
+	static constexpr int tiles_per_face = width * height;
+	
+	std::weak_ptr<tile_base> get_tile(face f, int row, int col) const;
+	std::array<std::shared_ptr<tile_base>, width> get_row(face f, int row) const;
+	std::array<std::shared_ptr<tile_base>, height> get_col(face f, int col) const;
+	std::array<std::shared_ptr<tile_base>, tiles_per_face> get_face(face f) const
+		{ return tile_data.at(to_int(f)); }
+	std::array<std::array<std::shared_ptr<tile_base>, tiles_per_face>, face_count> get() const
+		{ return tile_data; }
 private:
 	void rotate_face(face n, bool prime = false);
-	std::vector<std::shared_ptr<tile_base>> extract_tiles(face n, slice o);
 
-	std::vector<std::shared_ptr<tile_base>> tile_data;
+	std::array<std::array<std::shared_ptr<tile_base>, tiles_per_face>, face_count> tile_data;
 };
 
 template <typename tile_type>

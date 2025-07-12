@@ -14,12 +14,12 @@ void cube_3x3<tile_type>::reset() {
 
 template <typename tile_type>
 cube_3x3<tile_type>& cube_3x3<tile_type>::turn_up(bool prime) {
-	rotate_face(face::up, prime);
+	rotate_ninety_degrees(get_face(face::up), width, height, prime);
 	return *this;
 }
 
 template <typename tile_type>
-std::weak_ptr<tile_base> cube_3x3<tile_type>::get_tile(face f, int row, int col) const {
+std::shared_ptr<tile_base> cube_3x3<tile_type>::get_tile(face f, int row, int col) const {
 	if (row >= height || row < 0) {
 		throw std::out_of_range{"row out of range"};
 	}
@@ -31,7 +31,8 @@ std::weak_ptr<tile_base> cube_3x3<tile_type>::get_tile(face f, int row, int col)
 }
 
 template <typename tile_type>
-std::array<std::shared_ptr<tile_base>, 3> cube_3x3<tile_type>::get_row(face f, int row) const {
+std::array<std::shared_ptr<tile_base>, cube_3x3<tile_type>::width>
+cube_3x3<tile_type>::get_row(face f, int row) {
 	if (row >= height || row < 0) {
 		throw std::out_of_range{"row out of range"};
 	}
@@ -44,7 +45,8 @@ std::array<std::shared_ptr<tile_base>, 3> cube_3x3<tile_type>::get_row(face f, i
 }
 
 template <typename tile_type>
-std::array<std::shared_ptr<tile_base>, 3> cube_3x3<tile_type>::get_col(face f, int col) const {
+std::array<std::shared_ptr<tile_base>, cube_3x3<tile_type>::height>
+cube_3x3<tile_type>::get_col(face f, int col) {
 	if (col >= width || col < 0) {
 		throw std::out_of_range{"col out of range"};
 	}
@@ -61,39 +63,12 @@ std::ostream& operator<<(std::ostream& os, const cube_3x3<tile_type>& cube) {
 	for (int face = 0; face < cube.face_count; ++face) {
 		for (int row = 0; row < cube.height; ++row) {
 			for (int col = 0; col < cube.width; ++col) {
-				os << cube.get_tile(to_face(face), row, col).lock()->rep() << ' ';
+				os << cube.get_tile(to_face(face), row, col)->rep() << ' ';
 			}
 		}
 		os << '\n';
 	}
 	return os;
-}
-
-template <typename tile_type>
-void cube_3x3<tile_type>::rotate_face(face f, bool prime) {
-	auto convert = [prime](int x, int y) {
-		if (prime) {
-			return x * height + (height - y - 1);
-		} else {
-			return (width - x - 1) * height + y;
-		}
-	};
-	std::array<std::shared_ptr<tile_base>, tiles_per_face> temp;
-	auto& side = tile_data.at(to_int(f));
-	for (int y = 0; y < height; ++y) {
-		for (int x = 0; x < width; ++x) {
-			int index = y * width + x;
-			int rotated_index = convert(x, y);
-			std::cout << "x: " << x << " y: " << y << " i: " << index << " r: " << rotated_index << '\n';
-			temp.at(index) = side.at(rotated_index);
-		}
-	}
-	std::cout << "--------------\n";
-	for (const auto& p : temp) {
-		std::cout << p->rep() << ' ';
-	}
-	std::cout << "\n--------------\n";
-	side = std::move(temp);
 }
 
 }	// rubiks namespace

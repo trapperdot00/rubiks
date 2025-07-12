@@ -1,19 +1,17 @@
 #ifndef CUBE_3X3_H
 #define CUBE_3X3_H
 
+#include "cube_utils.h"
 #include "tile_base.h"
 #include "face.h"
 #include "slice.h"
 #include "../utils/container_append.h"
 
 #include <iostream>
-#include <array>
 #include <deque>
 #include <vector>
-#include <memory>
 #include <stdexcept>
 #include <iterator>
-#include <utility>
 
 namespace rubiks {
 
@@ -35,16 +33,14 @@ public:
 	static constexpr int face_count = 6;
 	static constexpr int tiles_per_face = width * height;
 	
-	std::weak_ptr<tile_base> get_tile(face f, int row, int col) const;
-	std::array<std::shared_ptr<tile_base>, width> get_row(face f, int row) const;
-	std::array<std::shared_ptr<tile_base>, height> get_col(face f, int col) const;
-	std::array<std::shared_ptr<tile_base>, tiles_per_face> get_face(face f) const
+	std::shared_ptr<tile_base> get_tile(face f, int row, int col) const;
+	std::array<std::shared_ptr<tile_base>, width> get_row(face f, int row);
+	std::array<std::shared_ptr<tile_base>, height> get_col(face f, int col);
+	std::array<std::shared_ptr<tile_base>, tiles_per_face>& get_face(face f)
 		{ return tile_data.at(to_int(f)); }
-	std::array<std::array<std::shared_ptr<tile_base>, tiles_per_face>, face_count> get() const
+	std::array<std::array<std::shared_ptr<tile_base>, tiles_per_face>, face_count>& get()
 		{ return tile_data; }
 private:
-	void rotate_face(face n, bool prime = false);
-
 	std::array<std::array<std::shared_ptr<tile_base>, tiles_per_face>, face_count> tile_data;
 };
 

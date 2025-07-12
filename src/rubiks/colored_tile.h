@@ -8,6 +8,7 @@ namespace rubiks {
 
 class colored_tile : virtual public tile_base {
 public:
+	colored_tile() = default;
 	colored_tile(int face, int tile) :
 		tile_base{face, tile},
 		col{int_to_color(face)}
@@ -17,7 +18,7 @@ public:
 	}
 	color get_color() const { return col; }
 private:
-	color col;
+	color col = color::white;
 };
 
 }	// rubiks namespace

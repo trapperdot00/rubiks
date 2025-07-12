@@ -7,6 +7,7 @@ namespace rubiks {
 
 class tile_base {
 public:
+	tile_base() = default;
 	tile_base(int face, int tile) :
 		face_no{face}, tile_no{tile}
 	{}
@@ -16,10 +17,10 @@ public:
 	virtual std::string rep() const = 0;
 	virtual ~tile_base() = default;
 private:
-	int face_no;
-	int tile_no;
+	int face_no = 0;
+	int tile_no = 0;
 };
 
-};	// rubiks namespace
+}	// rubiks namespace
 
 #endif

@@ -7,6 +7,7 @@ namespace rubiks {
 
 class numbered_tile : virtual public tile_base {
 public:
+	numbered_tile() = default;
 	numbered_tile(int face, int tile) :
 		tile_base{face, tile}
 	{}

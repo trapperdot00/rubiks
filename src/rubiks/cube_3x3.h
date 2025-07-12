@@ -33,15 +33,20 @@ public:
 	static constexpr int face_count = 6;
 	static constexpr int tiles_per_face = width * height;
 	
-	std::shared_ptr<tile_base> get_tile(face f, int row, int col) const;
-	std::array<std::shared_ptr<tile_base>, width> get_row(face f, int row);
-	std::array<std::shared_ptr<tile_base>, height> get_col(face f, int col);
-	std::array<std::shared_ptr<tile_base>, tiles_per_face>& get_face(face f)
-		{ return tile_data.at(to_int(f)); }
-	std::array<std::array<std::shared_ptr<tile_base>, tiles_per_face>, face_count>& get()
-		{ return tile_data; }
+	const tile_type& get_tile(face f, int row, int col) const;
+	tile_type& get_tile(face f, int row, int col);
+	
+	std::array<tile_type, width> get_row(face f, int row);
+	std::array<tile_type, height> get_col(face f, int col);
+
+	const std::array<tile_type, tiles_per_face>& get_face(face f) const;
+	std::array<tile_type, tiles_per_face>& get_face(face f);
+
+	std::array<std::array<tile_type, tiles_per_face>, face_count>& get() {
+		return tile_data;
+	}
 private:
-	std::array<std::array<std::shared_ptr<tile_base>, tiles_per_face>, face_count> tile_data;
+	std::array<std::array<tile_type, tiles_per_face>, face_count> tile_data;
 };
 
 template <typename tile_type>

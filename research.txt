@@ -103,3 +103,77 @@ B' from initial:
 	o2 o5 o8 o1 o4 o7 o0 o3 o6	<-- rotate_face
 	w6 b1 b2 w7 b4 b5 w8 b7 b8
 	w0 w1 w2 w3 w4 w5 g8 g5 g2
+
+--------Rotated faces--------
+U :	Up clockwise
+U':	Up counterclockwise
+D :	Down clockwise
+D':	Down counterclockwise
+R :	Right clockwise
+R':	Right counterclockwise
+L :	Left clockwise
+L':	Left counterclockwise
+F :	Front clockwise
+F':	Front counterclockwise
+B :	Back clockwise
+B':	Back counterclockwise
+--------Shifted faces---------
+U :	Front top row		>	Left top row
+	Left top row		>	Back top row
+	Back top row		>	Right top row
+	Right top row		>	Front top row
+
+U':	Front top row		>	Right top row
+	Right top row		>	Back top row
+	Back top row		>	Left top row
+	Left top row		>	Front top row
+
+D:	Front bottom row	>	Right bottom row
+	Right bottom row	>	Back bottom row
+	Back bottom row		>	Left bottom row
+	Left bottom row		>	Front bottom row
+
+D':	Front bottom row	>	Left bottom row
+	Left bottom row		>	Back bottom row
+	Back bottom row		>	Right bottom row
+	Right bottom row	>	Front bottom row
+
+R :	Front right column	>	Top right column
+	Top right column	>	Back left column	(reversed)
+	Back left column	>	Down right column	(reversed)
+	Down right column	>	Front right column
+
+R':	Front right column	>	Down right column
+	Down right column	>	Back left column	(reversed)
+	Back left column	>	Top right column	(reversed)
+	Top right column	>	Front right column
+
+L :	Front left column	>	Down left column
+	Down left column	>	Back right column	(reversed)
+	Back right column	>	Top left column		(reversed)
+	Top left column		>	Front left column
+
+L':	Front left column	>	Top left column
+	Top left column		>	Back right column	(reversed)
+	Back right column	>	Down left column	(reversed)
+	Down left column	>	Front left column
+
+F :	Top bottom row		>	Right left column	(row-to-column)
+	Right left column	>	Down top row		(column-to-row)
+	Down top row		>	Left right column	(row-to-column)
+	Left right column	>	Top bottom row		(column-to-row)
+
+F':	Top bottom row		>	Left right column	(row-to-column)
+	Left right column	>	Down top row		(column-to-row)
+	Down top row		>	Right left column	(column-to-row)
+	Right left column	>	Top bottom row		(column-to-row)
+
+B :	Top top row			>	Left left column	(row-to-column)
+	Left left column	>	Down bottom row		(column-to-row)
+	Down bottom row		>	Right right column	(row-to-column)
+	Right right column	>	Top top row			(column-to-row)
+
+B':	Top top row			>	Right right column	(row-to-column)
+	Right right column	>	Down bottom row		(column-to-row)
+	Down bottom row		>	Left left column	(row-to-column)
+	Left left column	>	Top top row			(column-to-row)

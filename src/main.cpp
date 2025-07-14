@@ -3,18 +3,18 @@
 
 #include <map>
 
-template <size_t length>
+template <size_t length, typename tile_type>
 void game() {
 	using namespace rubiks;
-	static const std::map<char, cube<length, colored_numbered_tile>& (cube<length, colored_numbered_tile>::*)(bool)> f {
-		{'u', &cube<length, colored_numbered_tile>::turn_up},
-		{'d', &cube<length, colored_numbered_tile>::turn_down},
-		{'r', &cube<length, colored_numbered_tile>::turn_right},
-		{'l', &cube<length, colored_numbered_tile>::turn_left},
-		{'f', &cube<length, colored_numbered_tile>::turn_front},
-		{'b', &cube<length, colored_numbered_tile>::turn_back},
+	static const std::map<char, cube<length, tile_type>& (cube<length, tile_type>::*)(bool)> f {
+		{'u', &cube<length, tile_type>::turn_up},
+		{'d', &cube<length, tile_type>::turn_down},
+		{'r', &cube<length, tile_type>::turn_right},
+		{'l', &cube<length, tile_type>::turn_left},
+		{'f', &cube<length, tile_type>::turn_front},
+		{'b', &cube<length, tile_type>::turn_back},
 	};
-	cube<length, colored_numbered_tile> cube;
+	cube<length, tile_type> cube;
 	std::cout << cube << '\n';
 	std::cout << "enter movement: ";
 	for (std::string cmd; std::cin >> cmd; ) {
@@ -32,6 +32,14 @@ void game() {
 	}
 }
 
+#ifndef SIZE
+#error SIZE NOT GIVEN
+#endif
+
+#ifndef TILE
+#error TILE NOT GIVEN
+#endif
+
 int main() {
-	game<3>();
+	game<SIZE, TILE>();
 }

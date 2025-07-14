@@ -236,6 +236,7 @@ std::ostream& operator<<(std::ostream& os, const cube<length, tile_type>& cube) 
 			for (int col = 0; col < length; ++col) {
 				os << cube.get_tile(to_face(face), row, col).rep() << ' ';
 			}
+			os << '\n';
 		}
 		os << '\n';
 	}

@@ -8,7 +8,7 @@ namespace rubiks {
 class numbered_tile : virtual public tile_base {
 public:
 	numbered_tile() = default;
-	numbered_tile(int face, int tile) :
+	numbered_tile(size_t face, size_t tile) :
 		tile_base{face, tile}
 	{}
 	std::string rep() const override {

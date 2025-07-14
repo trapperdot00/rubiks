@@ -9,7 +9,7 @@ namespace rubiks {
 class colored_tile : virtual public tile_base {
 public:
 	colored_tile() = default;
-	colored_tile(int face, int tile) :
+	colored_tile(size_t face, size_t tile) :
 		tile_base{face, tile},
 		col{int_to_color(face)}
 	{}

@@ -9,7 +9,7 @@ namespace rubiks {
 class colored_numbered_tile : public colored_tile, public numbered_tile {
 public:
 	colored_numbered_tile() = default;
-	colored_numbered_tile(int face, int tile) :
+	colored_numbered_tile(size_t face, size_t tile) :
 		tile_base{face, tile},
 		colored_tile{face, tile},
 		numbered_tile{face, tile}

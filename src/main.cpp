@@ -1,19 +1,20 @@
-#include "rubiks/cube_3x3.h"
+#include "rubiks/cube.h"
 #include "rubiks/colored_numbered_tile.h"
 
 #include <map>
 
+template <size_t length>
 void game() {
 	using namespace rubiks;
-	static const std::map<char, cube_3x3<colored_numbered_tile>& (cube_3x3<colored_numbered_tile>::*)(bool)> f {
-		{'u', &cube_3x3<colored_numbered_tile>::turn_up},
-//		{'d', &cube_3x3<colored_numbered_tile>::turn_down},
-//		{'r', &cube_3x3<colored_numbered_tile>::turn_right},
-//		{'l', &cube_3x3<colored_numbered_tile>::turn_left},
-//		{'f', &cube_3x3<colored_numbered_tile>::turn_front},
-//		{'b', &cube_3x3<colored_numbered_tile>::turn_back},
+	static const std::map<char, cube<length, colored_numbered_tile>& (cube<length, colored_numbered_tile>::*)(bool)> f {
+		{'u', &cube<length, colored_numbered_tile>::turn_up},
+		{'d', &cube<length, colored_numbered_tile>::turn_down},
+		{'r', &cube<length, colored_numbered_tile>::turn_right},
+		{'l', &cube<length, colored_numbered_tile>::turn_left},
+		{'f', &cube<length, colored_numbered_tile>::turn_front},
+		{'b', &cube<length, colored_numbered_tile>::turn_back},
 	};
-	cube_3x3<colored_numbered_tile> cube;
+	cube<length, colored_numbered_tile> cube;
 	std::cout << cube << '\n';
 	std::cout << "enter movement: ";
 	for (std::string cmd; std::cin >> cmd; ) {
@@ -32,5 +33,5 @@ void game() {
 }
 
 int main() {
-	game();
+	game<3>();
 }

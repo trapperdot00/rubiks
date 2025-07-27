@@ -9,7 +9,6 @@
 #include "../utils/container_append.h"
 
 #include <iostream>
-#include <deque>
 #include <vector>
 #include <stdexcept>
 #include <iterator>
@@ -17,13 +16,17 @@
 
 namespace rubiks {
 
-template <size_t length, typename tile_type = colored_tile>
+template <typename tile_type = colored_tile>
 class cube {
 public:
-	cube() { reset(); }
+	using face_container = std::vector<tile_type>;
+	using cube_container = std::vector<face_container>;
+	static constexpr size_t face_count = 6;
+
+	cube(size_t);
 	void reset();
 
-	void turn(axis, size_t, bool prime = false);
+	void turn(axis, size_t, bool prime = false); // TODO
 	cube& turn_up(bool prime = false);
 	cube& turn_down(bool prime = false);
 	cube& turn_right(bool prime = false);
@@ -31,28 +34,24 @@ public:
 	cube& turn_front(bool prime = false);
 	cube& turn_back(bool prime = false);
 
-	static constexpr size_t face_count = 6;
-	static constexpr size_t tiles_per_face = length * length;
-	
+	size_t length() const { return length_; }
+	size_t tiles_per_face() const { return length_ * length_; }
 	const tile_type& get_tile(face f, int row, int col) const;
 	tile_type& get_tile(face f, int row, int col);
-	
-	const std::array<tile_type, tiles_per_face>& get_face(face f) const;
-	std::array<tile_type, tiles_per_face>& get_face(face f);
-
-	std::array<std::array<tile_type, tiles_per_face>, face_count>& get() {
-		return tile_data;
-	}
+	const face_container& get_face(face f) const;
+	face_container& get_face(face f);
+	cube_container& get() { return tile_data; }
 private:
 	void rotate_face(face f, bool prime = false);
-	std::array<size_t, length> get_indices(layer) const;
-	template <size_t size> void move(const std::array<movement, size>&);
+	void move(const std::vector<movement>&);
+	std::vector<size_t> get_indices(layer) const;
 
-	std::array<std::array<tile_type, tiles_per_face>, face_count> tile_data;
+	size_t length_;
+	cube_container tile_data;
 };
 
-template <size_t length, typename tile_type>
-std::ostream& operator<<(std::ostream&, const cube<length, tile_type>&);
+template <typename tile_type>
+std::ostream& operator<<(std::ostream&, const cube<tile_type>&);
 
 }	// rubiks namespace
 

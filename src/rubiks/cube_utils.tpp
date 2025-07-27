@@ -2,8 +2,8 @@
 
 namespace rubiks {
 
-template <typename T, size_t size>
-void rotate_ninety_degrees(std::array<T, size>& arr, int width, int height, bool counterclockwise) {
+template <typename T>
+void rotate_ninety_degrees(std::vector<T>& vec, int width, int height, bool counterclockwise) {
 	auto convert = [&](int x, int y) {
 		if (counterclockwise) {
 			return (height - y - 1) + x * height;
@@ -14,15 +14,15 @@ void rotate_ninety_degrees(std::array<T, size>& arr, int width, int height, bool
 	if (width != height) {
 		std::swap(width, height);
 	}
-	std::array<T, size> new_arr;
+	std::vector<T> new_vec(vec.size());
 	for (int y = 0; y < height; ++y) {
 		for (int x = 0; x < width; ++x) {
 			int index = y * width + x;
 			int rotated_index = convert(x, y);
-			new_arr.at(index) = std::move(arr.at(rotated_index));
+			new_vec.at(index) = std::move(vec.at(rotated_index));
 		}
 	}
-	arr = std::move(new_arr);
+	vec = std::move(new_vec);
 }
 
 }	// rubiks namespace

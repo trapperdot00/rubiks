@@ -26,7 +26,12 @@ public:
 	cube(size_t);
 	void reset();
 
-	void turn(axis, size_t, bool prime = false); // TODO
+	// TODO
+	cube& turn(axis, size_t, bool prime = false);
+	cube& turn_x_axis(size_t, bool prime = false);
+	cube& turn_y_axis(size_t, bool prime = false);
+	cube& turn_z_axis(size_t, bool prime = false);
+
 	cube& turn_up(bool prime = false);
 	cube& turn_down(bool prime = false);
 	cube& turn_right(bool prime = false);

@@ -14,7 +14,7 @@ public:
 	std::string rep() const override {
 		return std::to_string(get_number());
 	}
-	int get_number() const { return tile_num(); }
+	virtual int get_number() const { return tile_num(); }
 };
 
 }	// rubiks namespace

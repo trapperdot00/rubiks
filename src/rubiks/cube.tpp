@@ -19,8 +19,107 @@ template <typename tile_type> void cube<tile_type>::reset() {
 }
 
 template <typename tile_type>
-void cube<tile_type>::turn(axis ax, size_t offset, bool prime) {
-	// TODO
+cube<tile_type>& cube<tile_type>::turn(axis ax, size_t offset, bool prime) {
+	if (offset >= length()) {
+		throw std::out_of_range{"layer offset out of range"};
+	}
+	switch (ax) {
+	case axis::x:
+		return turn_x_axis(offset, prime);
+	case axis::y:
+		return turn_y_axis(offset, prime);
+	case axis::z:
+		return turn_z_axis(offset, prime);
+	default:
+		throw std::runtime_error{"invalid axis"};
+	}
+}
+
+template <typename tile_type>
+cube<tile_type>& cube<tile_type>::turn_x_axis(size_t offset, bool prime) {
+	std::vector<size_t> top_indices = get_indices(layer{selection{face::up, direction::vertical}, offset});
+	std::vector<size_t> front_indices = get_indices(layer{selection{face::front, direction::vertical}, offset});
+	std::vector<size_t> back_indices = get_indices(layer{selection{face::back, direction::vertical}, length() - offset - 1});
+	std::vector<size_t> bottom_indices = get_indices(layer{selection{face::down, direction::vertical}, offset});
+	std::cout << "top_indices:";
+	for (size_t i : top_indices) {
+		std::cout << ' ' << i;
+	}
+	std::cout << '\n';
+	std::cout << "front_indices:";
+	for (size_t i : front_indices) {
+		std::cout << ' ' << i;
+	}
+	std::cout << '\n';
+	std::cout << "back_indices:";
+	for (size_t i : back_indices) {
+		std::cout << ' ' << i;
+	}
+	std::cout << '\n';
+	std::cout << "bottom_indices:";
+	for (size_t i : bottom_indices) {
+		std::cout << ' ' << i;
+	}
+	std::cout << '\n';
+	return *this;
+}
+
+template <typename tile_type>
+cube<tile_type>& cube<tile_type>::turn_y_axis(size_t offset, bool prime) {
+	std::vector<size_t> top_indices = get_indices(layer{selection{face::up, direction::horizontal}, length() - offset - 1});
+	std::vector<size_t> right_indices = get_indices(layer{selection{face::right, direction::vertical}, offset});
+	std::vector<size_t> left_indices = get_indices(layer{selection{face::left, direction::vertical}, length() - offset - 1});
+	std::vector<size_t> bottom_indices = get_indices(layer{selection{face::down, direction::horizontal}, offset});
+	std::cout << "top_indices:";
+	for (size_t i : top_indices) {
+		std::cout << ' ' << i;
+	}
+	std::cout << '\n';
+	std::cout << "right_indices:";
+	for (size_t i : right_indices) {
+		std::cout << ' ' << i;
+	}
+	std::cout << '\n';
+	std::cout << "left_indices:";
+	for (size_t i : left_indices) {
+		std::cout << ' ' << i;
+	}
+	std::cout << '\n';
+	std::cout << "bottom_indices:";
+	for (size_t i : bottom_indices) {
+		std::cout << ' ' << i;
+	}
+	std::cout << '\n';
+	return *this;
+}
+
+template <typename tile_type>
+cube<tile_type>& cube<tile_type>::turn_z_axis(size_t offset, bool prime) {
+	std::vector<size_t> front_indices = get_indices(layer{selection{face::front, direction::horizontal}, length() - offset - 1});
+	std::vector<size_t> right_indices = get_indices(layer{selection{face::right, direction::horizontal}, length() - offset - 1});
+	std::vector<size_t> back_indices = get_indices(layer{selection{face::back, direction::horizontal}, length() - offset - 1});
+	std::vector<size_t> left_indices = get_indices(layer{selection{face::left, direction::horizontal}, length() - offset - 1});
+	std::cout << "front_indices:";
+	for (size_t i : front_indices) {
+		std::cout << ' ' << i;
+	}
+	std::cout << '\n';
+	std::cout << "right_indices:";
+	for (size_t i : right_indices) {
+		std::cout << ' ' << i;
+	}
+	std::cout << '\n';
+	std::cout << "back_indices:";
+	for (size_t i : back_indices) {
+		std::cout << ' ' << i;
+	}
+	std::cout << '\n';
+	std::cout << "left_indices:";
+	for (size_t i : left_indices) {
+		std::cout << ' ' << i;
+	}
+	std::cout << '\n';
+	return *this;
 }
 
 template <typename tile_type>

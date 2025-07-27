@@ -29,7 +29,9 @@ int main() {
 		throw std::runtime_error{"invalid length"};
 	}
 	rubiks::cube<rubiks::static_numbered_tile> cube(length);
-	std::cout << "enter axis and offset:\n";
+	constexpr size_t n = 80;
+	std::cout << std::string(n, '#') << '\n';
+	std::cout << "enter turn-axis and offset: ";
 	while (true) {
 		char ch = 0;
 		if (!(std::cin >> ch)) {
@@ -40,9 +42,11 @@ int main() {
 		if (!(std::cin >> offset)) {
 			throw std::runtime_error{"invalid offset"};
 		}
+		std::cout << std::string(n, '-') << '\n';
 		cube.turn(axis, offset);
-		std::cout << std::string(50, '-') << '\n';
+		std::cout << std::string(n, '-') << '\n';
 		std::cout << cube << '\n';
-		std::cout << "enter axis and offset:\n";
+		std::cout << std::string(n, '#') << '\n';
+		std::cout << "enter turn-axis and offset: ";
 	}
 }

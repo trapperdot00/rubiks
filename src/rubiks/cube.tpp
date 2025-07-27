@@ -337,7 +337,7 @@ template <typename tile_type>
 std::ostream& operator<<(std::ostream& os, const cube<tile_type>& cube) {
 	for (int row = 0; row < cube.length(); ++row) {
 		for (int col = 0; col < cube.length(); ++col) {
-			os << cube.get_tile(to_face(0), row, col).rep() << ' ';
+			os << std::setw(3) << cube.get_tile(to_face(0), row, col).rep() << ' ';
 		}
 		os << '\n';
 	}
@@ -345,7 +345,7 @@ std::ostream& operator<<(std::ostream& os, const cube<tile_type>& cube) {
 	for (int row = 0; row < cube.length(); ++row) {
 		for (int face = 1; face <= 4; ++face) {
 			for (int col = 0; col < cube.length(); ++col) {
-				os << cube.get_tile(to_face(face), row, col).rep() << ' ';
+				os << std::setw(3) << cube.get_tile(to_face(face), row, col).rep() << ' ';
 			}
 			os << "  ";
 		}
@@ -354,7 +354,7 @@ std::ostream& operator<<(std::ostream& os, const cube<tile_type>& cube) {
 	os << '\n';
 	for (int row = 0; row < cube.length(); ++row) {
 		for (int col = 0; col < cube.length(); ++col) {
-			os << cube.get_tile(to_face(5), row, col).rep() << ' ';
+			os << std::setw(3) << cube.get_tile(to_face(5), row, col).rep() << ' ';
 		}
 		os << '\n';
 	}

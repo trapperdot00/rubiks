@@ -62,6 +62,6 @@ void shuffle(cube<tile_type>& c, const size_t move_count = 20) {
 
 int main() {
 	rubiks::cube cube{3};
-	shuffle(cube);
+	//shuffle(cube);
 	game(cube);
 }

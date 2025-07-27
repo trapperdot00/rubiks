@@ -9,6 +9,7 @@
 #include "../utils/container_append.h"
 
 #include <iostream>
+#include <iomanip>
 #include <vector>
 #include <stdexcept>
 #include <iterator>

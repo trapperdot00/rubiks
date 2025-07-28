@@ -1,4 +1,5 @@
 #include "rubiks/static_numbered_tile.h"
+#include "rubiks/colored_numbered_tile.h"
 #include "rubiks/cube.h"
 
 #include <string>
@@ -28,7 +29,7 @@ int main() {
 	if (!(std::cin >> length)) {
 		throw std::runtime_error{"invalid length"};
 	}
-	rubiks::cube<rubiks::static_numbered_tile> cube(length);
+	rubiks::cube<rubiks::colored_numbered_tile> cube(length);
 	constexpr size_t n = 80;
 	std::cout << std::string(n, '#') << '\n';
 	std::cout << "enter turn-axis and offset: ";

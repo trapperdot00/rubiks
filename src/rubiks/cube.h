@@ -22,6 +22,7 @@ class cube {
 public:
 	using face_container = std::vector<tile_type>;
 	using cube_container = std::vector<face_container>;
+	using index_container = std::vector<size_t>;
 	static constexpr size_t face_count = 6;
 
 	cube(size_t);
@@ -50,7 +51,11 @@ public:
 private:
 	void rotate_face(face f, bool prime = false);
 	void move(const std::vector<movement>&);
-	std::vector<size_t> get_indices(layer) const;
+	index_container get_indices(layer) const;
+	void apply_movement(const index_container&,
+						const index_container&,
+						const cube_container&,
+						bool reverse = false);
 
 	size_t length_;
 	cube_container tile_data;

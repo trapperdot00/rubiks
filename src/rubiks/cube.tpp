@@ -37,89 +37,91 @@ cube<tile_type>& cube<tile_type>::turn(axis ax, size_t offset, bool prime) {
 
 template <typename tile_type>
 cube<tile_type>& cube<tile_type>::turn_x_axis(size_t offset, bool prime) {
-	std::vector<size_t> top_indices = get_indices(layer{selection{face::up, direction::vertical}, offset});
-	std::vector<size_t> front_indices = get_indices(layer{selection{face::front, direction::vertical}, offset});
-	std::vector<size_t> back_indices = get_indices(layer{selection{face::back, direction::vertical}, length() - offset - 1});
-	std::vector<size_t> bottom_indices = get_indices(layer{selection{face::down, direction::vertical}, offset});
-	std::cout << "top_indices:";
-	for (size_t i : top_indices) {
-		std::cout << ' ' << i;
+	const auto old_cube = tile_data;
+	std::vector<std::vector<size_t>> indices;
+	indices.push_back(get_indices(layer{selection{face::up, direction::vertical}, offset}));
+	indices.push_back(get_indices(layer{selection{face::front, direction::vertical}, offset}));
+	indices.push_back(get_indices(layer{selection{face::back, direction::vertical}, length() - offset - 1}));
+	indices.push_back(get_indices(layer{selection{face::down, direction::vertical}, offset}));
+	if (!offset) {
+		rotate_face(face::left, prime);
+	} else if (offset == length() - 1) {
+		rotate_face(face::right, !prime);
 	}
-	std::cout << '\n';
-	std::cout << "front_indices:";
-	for (size_t i : front_indices) {
-		std::cout << ' ' << i;
-	}
-	std::cout << '\n';
-	std::cout << "back_indices:";
-	for (size_t i : back_indices) {
-		std::cout << ' ' << i;
-	}
-	std::cout << '\n';
-	std::cout << "bottom_indices:";
-	for (size_t i : bottom_indices) {
-		std::cout << ' ' << i;
-	}
-	std::cout << '\n';
+	apply_movement(indices[2], indices[0], old_cube, true);
+	apply_movement(indices[0], indices[1], old_cube);
+	apply_movement(indices[3], indices[2], old_cube, true);
+	apply_movement(indices[1], indices[3], old_cube);
 	return *this;
 }
 
 template <typename tile_type>
 cube<tile_type>& cube<tile_type>::turn_y_axis(size_t offset, bool prime) {
-	std::vector<size_t> top_indices = get_indices(layer{selection{face::up, direction::horizontal}, length() - offset - 1});
-	std::vector<size_t> right_indices = get_indices(layer{selection{face::right, direction::vertical}, offset});
-	std::vector<size_t> left_indices = get_indices(layer{selection{face::left, direction::vertical}, length() - offset - 1});
-	std::vector<size_t> bottom_indices = get_indices(layer{selection{face::down, direction::horizontal}, offset});
-	std::cout << "top_indices:";
-	for (size_t i : top_indices) {
-		std::cout << ' ' << i;
+	const auto old_cube = tile_data;
+	std::vector<std::vector<size_t>> indices;
+	indices.push_back(get_indices(layer{selection{face::up, direction::horizontal}, length() - offset - 1}));
+	indices.push_back(get_indices(layer{selection{face::right, direction::vertical}, offset}));
+	indices.push_back(get_indices(layer{selection{face::left, direction::vertical}, length() - offset - 1}));
+	indices.push_back(get_indices(layer{selection{face::down, direction::horizontal}, offset}));
+	if (!offset) {
+		rotate_face(face::front, prime);
+	} else if (offset == length() - 1) {
+		rotate_face(face::back, !prime);
 	}
-	std::cout << '\n';
-	std::cout << "right_indices:";
-	for (size_t i : right_indices) {
-		std::cout << ' ' << i;
-	}
-	std::cout << '\n';
-	std::cout << "left_indices:";
-	for (size_t i : left_indices) {
-		std::cout << ' ' << i;
-	}
-	std::cout << '\n';
-	std::cout << "bottom_indices:";
-	for (size_t i : bottom_indices) {
-		std::cout << ' ' << i;
-	}
-	std::cout << '\n';
+	apply_movement(indices[2], indices[0], old_cube, true);
+	apply_movement(indices[0], indices[1], old_cube);
+	apply_movement(indices[3], indices[2], old_cube);
+	apply_movement(indices[1], indices[3], old_cube, true);
 	return *this;
 }
 
 template <typename tile_type>
 cube<tile_type>& cube<tile_type>::turn_z_axis(size_t offset, bool prime) {
-	std::vector<size_t> front_indices = get_indices(layer{selection{face::front, direction::horizontal}, length() - offset - 1});
-	std::vector<size_t> right_indices = get_indices(layer{selection{face::right, direction::horizontal}, length() - offset - 1});
-	std::vector<size_t> back_indices = get_indices(layer{selection{face::back, direction::horizontal}, length() - offset - 1});
-	std::vector<size_t> left_indices = get_indices(layer{selection{face::left, direction::horizontal}, length() - offset - 1});
-	std::cout << "front_indices:";
-	for (size_t i : front_indices) {
-		std::cout << ' ' << i;
+	const auto old_cube = tile_data;
+	std::vector<std::vector<size_t>> indices;
+	indices.push_back(get_indices(layer{selection{face::front, direction::horizontal}, length() - offset - 1}));
+	indices.push_back(get_indices(layer{selection{face::right, direction::horizontal}, length() - offset - 1}));
+	indices.push_back(get_indices(layer{selection{face::back, direction::horizontal}, length() - offset - 1}));
+	indices.push_back(get_indices(layer{selection{face::left, direction::horizontal}, length() - offset - 1}));
+	if (!offset) {
+		rotate_face(face::down, prime);
+	} else if (offset == length() - 1) {
+		rotate_face(face::up, !prime);
 	}
-	std::cout << '\n';
-	std::cout << "right_indices:";
-	for (size_t i : right_indices) {
-		std::cout << ' ' << i;
-	}
-	std::cout << '\n';
-	std::cout << "back_indices:";
-	for (size_t i : back_indices) {
-		std::cout << ' ' << i;
-	}
-	std::cout << '\n';
-	std::cout << "left_indices:";
-	for (size_t i : left_indices) {
-		std::cout << ' ' << i;
-	}
-	std::cout << '\n';
+	apply_movement(indices[3], indices[0], old_cube);
+	apply_movement(indices[0], indices[1], old_cube);
+	apply_movement(indices[1], indices[2], old_cube);
+	apply_movement(indices[2], indices[3], old_cube);
 	return *this;
+}
+
+template <typename tile_type>
+void cube<tile_type>::apply_movement(const index_container& src_indices,
+									 const index_container& dest_indices,
+									 const cube_container& old_cube,
+									 bool reverse) {
+	if (src_indices.size() != length() || dest_indices.size() != length()) {
+		throw std::runtime_error{"index size mismatch"};
+	}
+	auto src_i = reverse ? length() - 1 : 0;
+	auto dest_i = 0;
+	for (size_t i = 0; i < length(); ++i) {
+		const size_t src = src_indices[src_i];
+		const size_t dest = dest_indices[dest_i];
+		const size_t face_dest = dest / tiles_per_face();
+		const size_t tile_dest = dest % tiles_per_face();
+		auto& current_tile = tile_data[face_dest][tile_dest];
+		const size_t face_src = src / tiles_per_face();
+		const size_t tile_src = src % tiles_per_face();
+		const auto& old_tile = old_cube[face_src][tile_src];
+		current_tile = old_tile;
+		if (!reverse) {
+			++src_i;
+		} else {
+			--src_i;
+		}
+		++dest_i;
+	}
 }
 
 template <typename tile_type>

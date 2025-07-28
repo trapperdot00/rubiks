@@ -2,7 +2,6 @@
 #define CUBE_H
 
 #include "axis.h"
-#include "rotation_pattern.h"
 #include "movement.h"
 #include "cube_utils.h"
 #include "colored_tile.h"
@@ -14,6 +13,7 @@
 #include <stdexcept>
 #include <iterator>
 #include <algorithm>
+#include <cstddef>
 
 namespace rubiks {
 
@@ -34,23 +34,15 @@ public:
 	cube& turn_y_axis(size_t, bool prime = false);
 	cube& turn_z_axis(size_t, bool prime = false);
 
-	cube& turn_up(bool prime = false);
-	cube& turn_down(bool prime = false);
-	cube& turn_right(bool prime = false);
-	cube& turn_left(bool prime = false);
-	cube& turn_front(bool prime = false);
-	cube& turn_back(bool prime = false);
-
 	size_t length() const { return length_; }
 	size_t tiles_per_face() const { return length_ * length_; }
-	const tile_type& get_tile(face f, int row, int col) const;
-	tile_type& get_tile(face f, int row, int col);
+	const tile_type& get_tile(face f, size_t row, size_t col) const;
+	tile_type& get_tile(face f, size_t row, size_t col);
 	const face_container& get_face(face f) const;
 	face_container& get_face(face f);
 	cube_container& get() { return tile_data; }
 private:
 	void rotate_face(face f, bool prime = false);
-	void move(const std::vector<movement>&);
 	index_container get_indices(layer) const;
 	void apply_movement(const index_container&,
 						const index_container&,

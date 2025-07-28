@@ -65,10 +65,23 @@ cube<tile_type>& cube<tile_type>::turn_x_axis(size_t offset, bool prime) {
 	} else if (offset == length() - 1) {
 		rotate_face(face::right, !prime);
 	}
-	apply_movement(indices[2], indices[0], old_cube, true);
-	apply_movement(indices[0], indices[1], old_cube);
-	apply_movement(indices[3], indices[2], old_cube, true);
-	apply_movement(indices[1], indices[3], old_cube);
+	struct mapping {
+		size_t from;
+		size_t to;
+		bool reverse = false;
+	};
+	const std::vector<mapping> mappings{
+		{2, 0, true},
+		{0, 1},
+		{3, 2, true},
+		{1, 3}
+	};
+	for (mapping m : mappings) {
+		if (prime) {
+			std::swap(m.from, m.to);
+		}
+		apply_movement(indices[m.from], indices[m.to], old_cube, m.reverse);
+	}
 	return *this;
 }
 
@@ -85,10 +98,23 @@ cube<tile_type>& cube<tile_type>::turn_y_axis(size_t offset, bool prime) {
 	} else if (offset == length() - 1) {
 		rotate_face(face::back, !prime);
 	}
-	apply_movement(indices[2], indices[0], old_cube, true);
-	apply_movement(indices[0], indices[1], old_cube);
-	apply_movement(indices[3], indices[2], old_cube);
-	apply_movement(indices[1], indices[3], old_cube, true);
+	struct mapping {
+		size_t from;
+		size_t to;
+		bool reverse = false;
+	};
+	const std::vector<mapping> mappings{
+		{2, 0, true},
+		{0, 1},
+		{3, 2},
+		{1, 3, true}
+	};
+	for (mapping m : mappings) {
+		if (prime) {
+			std::swap(m.from, m.to);
+		}
+		apply_movement(indices[m.from], indices[m.to], old_cube, m.reverse);
+	}
 	return *this;
 }
 
@@ -105,10 +131,23 @@ cube<tile_type>& cube<tile_type>::turn_z_axis(size_t offset, bool prime) {
 	} else if (offset == length() - 1) {
 		rotate_face(face::up, !prime);
 	}
-	apply_movement(indices[3], indices[0], old_cube);
-	apply_movement(indices[0], indices[1], old_cube);
-	apply_movement(indices[1], indices[2], old_cube);
-	apply_movement(indices[2], indices[3], old_cube);
+	struct mapping {
+		size_t from;
+		size_t to;
+		bool reverse = false;
+	};
+	const std::vector<mapping> mappings{
+		{3, 0},
+		{0, 1},
+		{1, 2},
+		{2, 3}
+	};
+	for (mapping m : mappings) {
+		if (prime) {
+			std::swap(m.from, m.to);
+		}
+		apply_movement(indices[m.from], indices[m.to], old_cube, m.reverse);
+	}
 	return *this;
 }
 

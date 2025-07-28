@@ -7,13 +7,12 @@
 #include "colored_tile.h"
 #include "../utils/container_append.h"
 
-#include <iostream>
-#include <iomanip>
 #include <vector>
 #include <stdexcept>
 #include <iterator>
 #include <algorithm>
 #include <cstddef>
+#include <utility>
 
 namespace rubiks {
 

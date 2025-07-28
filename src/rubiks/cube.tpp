@@ -3,19 +3,36 @@
 
 namespace rubiks {
 
-template <typename tile_type> cube<tile_type>::cube(size_t length) :
+template <typename tile_type>
+cube<tile_type>::cube(size_t length) :
 	length_{length},
-	tile_data(face_count, face_container(tiles_per_face()))
+	tile_data(face_count(), face_container(tiles_per_face()))
 {
 	reset();
 }
 
-template <typename tile_type> void cube<tile_type>::reset() {
-	for (size_t face = 0; face < face_count; ++face) {
+template <typename tile_type>
+void cube<tile_type>::reset() {
+	for (size_t face = 0; face < face_count(); ++face) {
 		for (size_t tile = 0; tile < tiles_per_face(); ++tile) {
 			tile_data[face][tile] = tile_type{face, tile};
 		}
 	}
+}
+
+template <typename tile_type>
+bool cube<tile_type>::solved() const {
+	for (size_t i = 0; i < face_count(); ++i) {
+		if (std::adjacent_find(tile_data[i].cbegin(),
+			tile_data[i].cend(),
+			[](const auto& a, const auto& b) {
+				return a != b;
+			}) != tile_data[i].cend())
+		{
+			return false;
+		}
+	}
+	return true;
 }
 
 template <typename tile_type>
@@ -126,10 +143,10 @@ void cube<tile_type>::apply_movement(const index_container& src_indices,
 
 template <typename tile_type>
 const tile_type& cube<tile_type>::get_tile(face f, size_t row, size_t col) const {
-	if (row >= length() || row < 0) {
+	if (row >= length()) {
 		throw std::out_of_range{"row out of range"};
 	}
-	if (col >= length() || col < 0) {
+	if (col >= length()) {
 		throw std::out_of_range{"col out of range"};
 	}
 	const int tile = row * length() + col;
@@ -138,7 +155,9 @@ const tile_type& cube<tile_type>::get_tile(face f, size_t row, size_t col) const
 
 template <typename tile_type>
 tile_type& cube<tile_type>::get_tile(face f, size_t row, size_t col) {
-	return const_cast<tile_type&>(const_cast<const cube*>(this)->get_tile(f, row, col));
+	return const_cast<tile_type&>(
+		const_cast<const cube*>(this)->get_tile(f, row, col)
+	);
 }
 
 template <typename tile_type>
@@ -175,34 +194,6 @@ typename cube<tile_type>::index_container cube<tile_type>::get_indices(layer s) 
 		throw std::runtime_error{"unknown direction for selection"};
 	}
 	return indices;
-}
-
-template <typename tile_type>
-std::ostream& operator<<(std::ostream& os, const cube<tile_type>& cube) {
-	for (size_t row = 0; row < cube.length(); ++row) {
-		for (size_t col = 0; col < cube.length(); ++col) {
-			os << std::setw(3) << cube.get_tile(to_face(0), row, col).rep() << ' ';
-		}
-		os << '\n';
-	}
-	os << '\n';
-	for (size_t row = 0; row < cube.length(); ++row) {
-		for (size_t face = 1; face <= 4; ++face) {
-			for (size_t col = 0; col < cube.length(); ++col) {
-				os << std::setw(3) << cube.get_tile(to_face(face), row, col).rep() << ' ';
-			}
-			os << "  ";
-		}
-		os << '\n';
-	}
-	os << '\n';
-	for (size_t row = 0; row < cube.length(); ++row) {
-		for (size_t col = 0; col < cube.length(); ++col) {
-			os << std::setw(3) << cube.get_tile(to_face(5), row, col).rep() << ' ';
-		}
-		os << '\n';
-	}
-	return os;
 }
 
 }	// rubiks namespace

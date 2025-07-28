@@ -16,6 +16,12 @@ public:
 	size_t tile_num() const { return tile_no; }
 
 	virtual std::string rep() const = 0;
+	bool operator==(const tile_base& rhs) const {
+		return face_num() == rhs.face_num();
+	}
+	bool operator!=(const tile_base& rhs) const {
+		return !(*this == rhs);
+	}
 	virtual ~tile_base() = default;
 private:
 	size_t face_no = 0;

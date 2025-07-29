@@ -4,6 +4,9 @@
 #include "colored_tile.h"
 #include "numbered_tile.h"
 
+#include <cstddef>
+#include <string>
+
 namespace rubiks {
 
 class colored_numbered_tile : public colored_tile, public numbered_tile {

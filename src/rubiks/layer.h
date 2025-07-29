@@ -3,6 +3,8 @@
 
 #include "selection.h"
 
+#include <cstddef>
+
 namespace rubiks {
 
 struct layer {

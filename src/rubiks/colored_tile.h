@@ -4,6 +4,9 @@
 #include "tile_base.h"
 #include "color.h"
 
+#include <cstddef>
+#include <string>
+
 namespace rubiks {
 
 class colored_tile : virtual public tile_base {

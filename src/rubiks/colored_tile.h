@@ -9,6 +9,7 @@
 
 namespace rubiks {
 
+// Defines a tile with a representation of a color
 class colored_tile : virtual public tile_base {
 public:
 	colored_tile() = default;

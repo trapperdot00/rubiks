@@ -5,6 +5,8 @@
 
 namespace rubiks {
 
+// Defines a tile with a representation
+// of a number unique to the whole program
 class static_numbered_tile : virtual public numbered_tile {
 public:
 	static_numbered_tile() = default;

@@ -9,6 +9,8 @@
 
 namespace rubiks {
 
+// Defines a tile with a representation
+// of a color and a number unique to the current side
 class colored_numbered_tile : public colored_tile, public numbered_tile {
 public:
 	colored_numbered_tile() = default;

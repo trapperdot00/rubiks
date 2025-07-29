@@ -7,8 +7,9 @@
 
 namespace rubiks {
 
+// Fully specifies a selected layer on a cube
 struct layer {
-	selection sel;
+	selection sel;	// Side and direction
 	size_t offset;	// in columns: offset from left
 					// in rows: offset from top
 };

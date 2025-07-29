@@ -3,6 +3,8 @@
 
 namespace rubiks {
 
+// Defines the direction of a selection
+// of tiles on a cube
 enum class direction {
 	vertical,
 	horizontal

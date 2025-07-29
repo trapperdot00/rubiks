@@ -7,37 +7,26 @@ void cli_game<tile_type>::shuffle(size_t steps) {
 	static std::bernoulli_distribution prime_gen;
 	std::uniform_int_distribution<size_t> offset_gen(0, cube_ptr->length() - 1);
 	std::cout << "shuffling...\n";
+	std::cin.ignore(1, '\n');
 	for (size_t i = 0; i < steps; ++i) {
 		const axis ax = to_axis(axis_gen(rand_engine));
 		const bool prime = prime_gen(rand_engine);
 		const size_t offset = offset_gen(rand_engine);
 		std::cout << '(' << to_char(ax) << offset << (prime ? "'" : "") << ")\n";
 		cube_ptr->turn(ax, offset, prime);
-		print_cube(std::cout) << '\n';
-		char a;
-		std::cin >> a;
+		print_cube(std::cout);
+		std::cin.ignore(1, '\n');
 	}
+	std::cout << "\n\n";
 }
 
 template <typename tile_type>
 void cli_game<tile_type>::play() {
-	shuffle();
+	shuffle(100);
 	print_cube(std::cout);
 	while (!solved()) try {
-		char ch1 = 0;
-		if (!(std::cin >> ch1)) {
-			return;
-		}
-		axis ax = to_axis(ch1);
-		size_t offset = 0;
-		if (!(std::cin >> offset)) {
-			return;
-		}
-		char ch2 = 0;
-		bool prime = false;
-		if (std::cin >> ch2 && ch2 == '\'') {
-			prime = true;
-		}
+		const auto [ax, offset, prime] = parse_rotation(std::cin);
+		std::cout << "Parsed move: " << to_char(ax) << offset << (prime ? "'" : "") << '\n';
 		cube_ptr->turn(ax, offset, prime);
 		print_cube(std::cout);
 	} catch (const std::exception& err) {
@@ -71,4 +60,43 @@ std::ostream& cli_game<tile_type>::print_cube(std::ostream& os) const {
 		os << '\n';
 	}
 	return os;
+}
+
+std::tuple<axis, size_t, bool> parse_rotation(std::istream& is) {
+	axis ax = parse_axis(is);
+	size_t offset = parse_offset(is);
+	bool prime = parse_prime(is);
+	return std::make_tuple(ax, offset, prime);
+}
+
+axis parse_axis(std::istream& is) {
+	char ch = 0;
+	if (!(is >> ch)) {
+		throw std::runtime_error{"axis expected"};
+	}
+	return to_axis(ch);
+}
+
+size_t parse_offset(std::istream& is) {
+	char ch = 0;
+	if (!is.get(ch) || !(std::isdigit(ch))) {
+		throw std::runtime_error{"number expected as offset"};
+	}
+	is.unget();
+	size_t num = 0;
+	is >> num;
+	return num;
+}
+
+bool parse_prime(std::istream& is) {
+	bool prime = false;
+	char ch = 0;
+	if (is.get(ch)) {
+		if (ch == '\'') {
+			prime = true;
+		} else {
+			is.unget();
+		}
+	}
+	return prime;
 }

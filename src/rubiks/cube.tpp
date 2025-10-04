@@ -103,9 +103,8 @@ void cube<tile_type>::apply_movement(const index_container& src_indices,
 	if (src_indices.size() != length() || dest_indices.size() != length()) {
 		throw std::runtime_error{"index size mismatch"};
 	}
-	auto src_i = reverse ? length() - 1 : 0;
-	auto dest_i = 0;
-	for (size_t i = 0; i < length(); ++i) {
+	size_t src_i = reverse ? length() - 1 : 0;
+	for (size_t i = 0, dest_i = 0; i < length(); ++i, ++dest_i) {
 		const size_t src = src_indices[src_i];
 		const size_t dest = dest_indices[dest_i];
 		const size_t face_dest = dest / tiles_per_face();
@@ -120,7 +119,6 @@ void cube<tile_type>::apply_movement(const index_container& src_indices,
 		} else {
 			--src_i;
 		}
-		++dest_i;
 	}
 }
 

@@ -6,18 +6,14 @@ void cli_game<tile_type>::shuffle(size_t steps) {
 	static std::uniform_int_distribution<int> axis_gen(0, 2);
 	static std::bernoulli_distribution prime_gen;
 	std::uniform_int_distribution<size_t> offset_gen(0, cube_ptr->length() - 1);
-	std::cout << "shuffling...\n";
-	std::cin.ignore(1, '\n');
+		std::cin.ignore(1, '\n');
 	for (size_t i = 0; i < steps; ++i) {
 		const axis ax = to_axis(axis_gen(rand_engine));
 		const bool prime = prime_gen(rand_engine);
 		const size_t offset = offset_gen(rand_engine);
-		std::cout << '(' << to_char(ax) << offset << (prime ? "'" : "") << ")\n";
 		cube_ptr->turn(ax, offset, prime);
-		print_cube(std::cout);
 		std::cin.ignore(1, '\n');
 	}
-	std::cout << "\n\n";
 }
 
 template <typename tile_type>
@@ -25,12 +21,11 @@ void cli_game<tile_type>::play() {
 	print_cube(std::cout);
 	do try {
 		const auto [ax, offset, prime] = parse_rotation(std::cin);
-		std::cout << "Parsed move: " << to_char(ax) << offset << (prime ? "'" : "") << '\n';
 		cube_ptr->turn(ax, offset, prime);
 		print_cube(std::cout);
 	} catch (const std::exception& err) {
 		std::cerr << "error: " << err.what() << '\n';
-	} while (!solved());
+	} while (std::cin && !solved());
 }
 
 template <typename tile_type>

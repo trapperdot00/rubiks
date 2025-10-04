@@ -42,9 +42,6 @@ bool cube<tile_type>::solved() const {
 
 template <typename tile_type>
 cube<tile_type>& cube<tile_type>::turn(axis ax, size_t offset, bool prime) {
-	if (offset >= length()) {
-		throw std::out_of_range{"layer offset out of range"};
-	}
 	switch (ax) {
 	case axis::x:
 		return turn_x_axis(offset, prime);
@@ -65,15 +62,11 @@ cube<tile_type>& cube<tile_type>::turn_x_axis(size_t offset, bool prime) {
 		{3, 2, true},
 		{1, 3}
 	}};
-	const auto old_cube = tile_data;
-	std::vector<index_container> indices;
-	for (size_t i = 0; i < 4; ++i) {
-		selection curr_selection = get_turn_selection(axis::x, i);
-		size_t curr_offset = translate_offset(axis::x, i, offset);
-		layer curr_layer{curr_selection, curr_offset};
-		index_container affected_tiles = get_indices(curr_layer);
-		indices.push_back(std::move(affected_tiles));
+	if (offset >= length()) {
+		throw std::out_of_range{"layer offset out of range"};
 	}
+	const auto old_cube = tile_data;
+	std::vector<index_container> indices = get_turn_affected_tiles(axis::x, offset);
 	if (!offset) {
 		rotate_face(face::left, prime);
 	} else if (offset == length() - 1) {
@@ -96,16 +89,11 @@ cube<tile_type>& cube<tile_type>::turn_y_axis(size_t offset, bool prime) {
 		{3, 2},
 		{1, 3, true}
 	}};
-
-	const auto old_cube = tile_data;
-	std::vector<index_container> indices;
-	for (size_t i = 0; i < 4; ++i) {
-		selection curr_selection = get_turn_selection(axis::y, i);
-		size_t curr_offset = translate_offset(axis::y, i, offset);
-		layer curr_layer{curr_selection, curr_offset};
-		index_container affected_tiles = get_indices(curr_layer);
-		indices.push_back(std::move(affected_tiles));
+	if (offset >= length()) {
+		throw std::out_of_range{"layer offset out of range"};
 	}
+	const auto old_cube = tile_data;
+	std::vector<index_container> indices = get_turn_affected_tiles(axis::y, offset);
 	if (!offset) {
 		rotate_face(face::front, prime);
 	} else if (offset == length() - 1) {
@@ -128,16 +116,11 @@ cube<tile_type>& cube<tile_type>::turn_z_axis(size_t offset, bool prime) {
 		{1, 2},
 		{2, 3}
 	}};
-	
-	const auto old_cube = tile_data;
-	std::vector<index_container> indices;
-	for (size_t i = 0; i < 4; ++i) {
-		selection curr_selection = get_turn_selection(axis::z, i);
-		size_t curr_offset = translate_offset(axis::z, i, offset);
-		layer curr_layer{curr_selection, curr_offset};
-		index_container affected_tiles = get_indices(curr_layer);
-		indices.push_back(std::move(affected_tiles));
+	if (offset >= length()) {
+		throw std::out_of_range{"layer offset out of range"};
 	}
+	const auto old_cube = tile_data;
+	std::vector<index_container> indices = get_turn_affected_tiles(axis::z, offset);
 	if (!offset) {
 		rotate_face(face::down, prime);
 	} else if (offset == length() - 1) {
@@ -179,6 +162,21 @@ void cube<tile_type>::apply_movement(const index_container& src_indices,
 		}
 		++dest_i;
 	}
+}
+
+template <typename tile_type>
+std::vector<typename cube<tile_type>::index_container>
+cube<tile_type>::get_turn_affected_tiles(axis ax, size_t offset) const {
+	std::vector<index_container> result;
+	result.reserve(4 * length());
+	for (size_t i = 0; i < 4; ++i) {
+		selection curr_selection = get_turn_selection(ax, i);
+		size_t curr_offset = translate_offset(ax, i, offset);
+		layer curr_layer{curr_selection, curr_offset};
+		index_container affected_tiles = get_indices(curr_layer);
+		result.push_back(std::move(affected_tiles));
+	}
+	return result;
 }
 
 template <typename tile_type>

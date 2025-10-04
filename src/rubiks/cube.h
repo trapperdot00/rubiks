@@ -86,6 +86,8 @@ private:
 						const cube_container& old_tile_data,
 						bool reverse = false);
 
+	std::vector<index_container> get_turn_affected_tiles(axis ax, size_t offset) const;
+
 	// Returns the indices of a given column or row
 	index_container get_indices(layer) const;
 

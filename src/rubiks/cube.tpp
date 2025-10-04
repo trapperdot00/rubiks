@@ -67,11 +67,7 @@ cube<tile_type>& cube<tile_type>::turn_x_axis(size_t offset, bool prime) {
 	}
 	const auto old_cube = tile_data;
 	std::vector<index_container> indices = get_turn_affected_tiles(axis::x, offset);
-	if (!offset) {
-		rotate_face(face::left, prime);
-	} else if (offset == length() - 1) {
-		rotate_face(face::right, !prime);
-	}
+	rotate_face_if_offset_at_edge(axis::x, offset, prime);
 	for (mapping m : mappings) {
 		if (prime) {
 			std::swap(m.from, m.to);
@@ -94,11 +90,7 @@ cube<tile_type>& cube<tile_type>::turn_y_axis(size_t offset, bool prime) {
 	}
 	const auto old_cube = tile_data;
 	std::vector<index_container> indices = get_turn_affected_tiles(axis::y, offset);
-	if (!offset) {
-		rotate_face(face::front, prime);
-	} else if (offset == length() - 1) {
-		rotate_face(face::back, !prime);
-	}
+	rotate_face_if_offset_at_edge(axis::y, offset, prime);
 	for (mapping m : mappings) {
 		if (prime) {
 			std::swap(m.from, m.to);
@@ -121,11 +113,7 @@ cube<tile_type>& cube<tile_type>::turn_z_axis(size_t offset, bool prime) {
 	}
 	const auto old_cube = tile_data;
 	std::vector<index_container> indices = get_turn_affected_tiles(axis::z, offset);
-	if (!offset) {
-		rotate_face(face::down, prime);
-	} else if (offset == length() - 1) {
-		rotate_face(face::up, !prime);
-	}
+	rotate_face_if_offset_at_edge(axis::z, offset, prime);
 	for (mapping m : mappings) {
 		if (prime) {
 			std::swap(m.from, m.to);
@@ -213,6 +201,39 @@ cube<tile_type>::get_face(face f) {
 template <typename tile_type>
 void cube<tile_type>::rotate_face(face f, bool prime) {
 	rotate_ninety_degrees(get_face(f), length(), length(), prime);
+}
+
+template <typename tile_type>
+void cube<tile_type>::rotate_face_if_offset_at_edge(axis ax, size_t offset, bool prime) {
+	if (offset == 0) {
+		switch (ax) {
+		case axis::x:
+			rotate_face(face::left, prime);
+			break;
+		case axis::y:
+			rotate_face(face::front, prime);
+			break;
+		case axis::z:
+			rotate_face(face::down, prime);
+			break;
+		default:
+			throw std::invalid_argument{"invalid axis"};
+		}
+	} else if (offset == length() - 1) {
+		switch (ax) {
+		case axis::x:
+			rotate_face(face::right, !prime);
+			break;
+		case axis::y:
+			rotate_face(face::back, !prime);
+			break;
+		case axis::z:
+			rotate_face(face::up, !prime);
+			break;
+		default:
+			throw std::invalid_argument{"invalid axis"};
+		}
+	}
 }
 
 template <typename tile_type>

@@ -75,6 +75,7 @@ private:
 	// Rotates the top tiles of a side by 90 degrees
 	// clockwise by default
 	void rotate_face(face side, bool prime = false);
+	void rotate_face_if_offset_at_edge(axis turn_axis, size_t offset, bool prime);
 
 	// Copies the selected tiles from old_tile_data
 	// into the current tile_data

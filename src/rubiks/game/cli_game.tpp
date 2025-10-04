@@ -22,16 +22,15 @@ void cli_game<tile_type>::shuffle(size_t steps) {
 
 template <typename tile_type>
 void cli_game<tile_type>::play() {
-	shuffle(100);
 	print_cube(std::cout);
-	while (!solved()) try {
+	do try {
 		const auto [ax, offset, prime] = parse_rotation(std::cin);
 		std::cout << "Parsed move: " << to_char(ax) << offset << (prime ? "'" : "") << '\n';
 		cube_ptr->turn(ax, offset, prime);
 		print_cube(std::cout);
 	} catch (const std::exception& err) {
 		std::cerr << "error: " << err.what() << '\n';
-	}
+	} while (!solved());
 }
 
 template <typename tile_type>

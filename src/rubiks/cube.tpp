@@ -59,12 +59,27 @@ cube<tile_type>& cube<tile_type>::turn(axis ax, size_t offset, bool prime) {
 
 template <typename tile_type>
 cube<tile_type>& cube<tile_type>::turn_x_axis(size_t offset, bool prime) {
+	static constexpr std::array<selection, 4> selections{{
+		{face::up,		direction::vertical},
+		{face::front,	direction::vertical},
+		{face::back,	direction::vertical},
+		{face::down,	direction::vertical}
+	}};
+	std::array<size_t, 4> offsets = {
+		offset,
+		offset,
+		length() - offset - 1,
+		offset
+	};
 	const auto old_cube = tile_data;
 	std::vector<index_container> indices;
-	indices.push_back(get_indices(layer{selection{face::up, direction::vertical}, offset}));
-	indices.push_back(get_indices(layer{selection{face::front, direction::vertical}, offset}));
-	indices.push_back(get_indices(layer{selection{face::back, direction::vertical}, length() - offset - 1}));
-	indices.push_back(get_indices(layer{selection{face::down, direction::vertical}, offset}));
+	for (size_t i = 0; i < 4; ++i) {
+		selection curr_selection = selections[i];
+		size_t curr_offset = offsets[i];
+		layer curr_layer{curr_selection, curr_offset};
+		index_container affected_tiles = get_indices(curr_layer);
+		indices.push_back(std::move(affected_tiles));
+	}
 	if (!offset) {
 		rotate_face(face::left, prime);
 	} else if (offset == length() - 1) {
@@ -75,12 +90,12 @@ cube<tile_type>& cube<tile_type>::turn_x_axis(size_t offset, bool prime) {
 		size_t to;
 		bool reverse = false;
 	};
-	const std::vector<mapping> mappings{
+	static constexpr std::array<mapping, 4> mappings{{
 		{2, 0, true},
 		{0, 1},
 		{3, 2, true},
 		{1, 3}
-	};
+	}};
 	for (mapping m : mappings) {
 		if (prime) {
 			std::swap(m.from, m.to);

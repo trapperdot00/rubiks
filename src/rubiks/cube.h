@@ -12,6 +12,7 @@
 #include <algorithm>
 #include <cstddef>
 #include <utility>
+#include <array>
 
 namespace rubiks {
 

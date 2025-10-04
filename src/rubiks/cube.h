@@ -3,6 +3,7 @@
 
 #include "axis.h"
 #include "movement.h"
+#include "mapping.h"
 #include "cube_utils.h"
 #include "colored_tile.h"
 

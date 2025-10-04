@@ -87,6 +87,8 @@ private:
 	// Returns the indices of a given column or row
 	index_container get_indices(layer) const;
 
+	void reset_face(size_t face);
+
 	size_t length_;
 	cube_container tile_data;
 };

@@ -14,9 +14,14 @@ cube<tile_type>::cube(size_t length) :
 template <typename tile_type>
 void cube<tile_type>::reset() {
 	for (size_t face = 0; face < face_count(); ++face) {
-		for (size_t tile = 0; tile < tiles_per_face(); ++tile) {
-			tile_data[face][tile] = tile_type{face, tile};
-		}
+		reset_face(face);
+	}
+}
+
+template <typename tile_type>
+void cube<tile_type>::reset_face(size_t face) {
+	for (size_t tile = 0; tile < tiles_per_face(); ++tile) {
+		tile_data[face][tile] = tile_type{face, tile};
 	}
 }
 

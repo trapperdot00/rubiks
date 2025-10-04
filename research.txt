@@ -1,4 +1,4 @@
-initial state:
+initial 3x3x3 cube state:
 	y0 y1 y2 y3 y4 y5 y6 y7 y8
 	r0 r1 r2 r3 r4 r5 r6 r7 r8
 	g0 g1 g2 g3 g4 g5 g6 g7 g8
@@ -8,7 +8,7 @@ initial state:
 
 ----------------------------------
 
-U from initial:
+U from initial (z2'):
 	y6 y3 y0 y7 y4 y1 y8 y5 y2	<-- rotate_face
 	g0 g1 g2 r3 r4 r5 r6 r7 r8	<-+
 	o0 o1 o2 g3 g4 g5 g6 g7 g8	  |	swap first three
@@ -16,7 +16,7 @@ U from initial:
 	r0 r1 r2 b3 b4 b5 b6 b7 b8	<-+
 	w0 w1 w2 w3 w4 w5 w6 w7 w8	<-- none
 
-U' from initial:
+U' from initial (z2):
 	y2 y5 y8 y1 y4 y7 y0 y3 y6	<-- rotate_face
 	b0 b1 b2 r3 r4 r5 r6 r7 r8	<-+
 	r0 r1 r2 g3 g4 g5 g6 g7 g8	  |	swap first three
@@ -24,7 +24,7 @@ U' from initial:
 	o0 o1 o2 b3 b4 b5 b6 b7 b8	<-+
 	w0 w1 w2 w3 w4 w5 w6 w7 w8	<-- none
 
-D from initial:
+D from initial (z0):
 	y0 y1 y2 y3 y4 y5 y6 y7 y8	<-- none
 	r0 r1 r2 r3 r4 r5 b6 b7 b8	<-+
 	g0 g1 g2 g3 g4 g5 r6 r7 r8	  |	swap last three
@@ -32,7 +32,7 @@ D from initial:
 	b0 b1 b2 b3 b4 b5 o6 o7 o8	<-+
 	w6 w3 w0 w7 w4 w1 w8 w5 w2	<-- rotate_face
 
-D' from initial:
+D' from initial (z0'):
 	y0 y1 y2 y3 y4 y5 y6 y7 y8	<-- none
 	r0 r1 r2 r3 r4 r5 g6 g7 g8	<-+
 	g0 g1 g2 g3 g4 g5 o6 o7 o8	  |	swap last three
@@ -40,7 +40,7 @@ D' from initial:
 	b0 b1 b2 b3 b4 b5 r6 r7 r8	<-+
 	w2 w5 w8 w1 w4 w7 w0 w3 w6	<-- rotate_face
 
-R from initial:
+R from initial (x2'):
 	y0 y1 r2 y3 y4 r5 y6 y7 r8
 	r0 r1 w2 r3 r4 w5 r6 r7 w8
 	g6 g3 g0 g7 g4 g1 g8 g5 g2	<-- rotate_face
@@ -48,7 +48,7 @@ R from initial:
 	b0 b1 b2 b3 b4 b5 b6 b7 b8	<-- none
 	w0 w1 o6 w3 w4 o3 w6 w7 o0
 
-R' from initial:
+R' from initial (x2):
 	y0 y1 o6 y3 y4 o3 y6 y7 o0
 	r0 r1 y2 r3 r4 y5 r6 r7 y8
 	g2 g5 g8 g1 g4 g7 g0 g3 g6	<-- rotate_face
@@ -56,7 +56,7 @@ R' from initial:
 	b0 b1 b2 b3 b4 b5 b6 b7 b8	<-- none
 	w0 w1 r2 w3 w4 r5 w6 w7 r8
 
-L from initial:
+L from initial (x0):
 	o8 y1 y2 o5 y4 y5 o2 y7 y8
 	y0 r1 r2 y3 r4 r5 y6 r7 r8
 	g0 g1 g2 g3 g4 g5 g6 g7 g8	<-- none
@@ -64,7 +64,7 @@ L from initial:
 	b6 b3 b0 b7 b4 b1 b8 b5 b2	<-- rotate_face
 	r0 w1 w2 r3 w4 w5 r6 w7 w8
 
-L' from initial:
+L' from initial (x0'):
 	r0 y1 y2 r3 y4 y5 r6 y7 y8
 	w0 r1 r2 w3 r4 r5 w6 r7 r8
 	g0 g1 g2 g3 g4 g5 g6 g7 g8	<-- none
@@ -72,7 +72,7 @@ L' from initial:
 	b2 b5 b8 b1 b4 b7 b0 b3 b6	<-- rotate_face
 	o8 w1 w2 o5 w4 w5 o2 w7 w8
 
-F from initial:
+F from initial (y0):
 	y0 y1 y2 y3 y4 y5 b8 b5 b2
 	r6 r3 r0 r7 r4 r1 r8 r5 r2	<-- rotate_face
 	y6 g1 g2 y7 g4 g5 y8 g7 g8
@@ -80,7 +80,7 @@ F from initial:
 	b0 b1 w0 b3 b4 w1 b6 b7 w2
 	g6 g3 g0 w3 w4 w5 w6 w7 w8
 
-F' from initial:
+F' from initial (y0'):
 	y0 y1 y2 y3 y4 y5 g0 g3 g6
 	r2 r5 r8 r1 r4 r7 r0 r3 r6	<-- rotate_face
 	w2 g1 g2 w1 g4 g5 w0 g7 g8
@@ -88,7 +88,7 @@ F' from initial:
 	b0 b1 y8 b3 b4 y7 b6 b7 y6
 	b2 b5 b8 w3 w4 w5 w6 w7 w8
 
-B from initial:
+B from initial (y2'):
 	g2 g5 g8 y3 y4 y5 y6 y7 y8
 	r0 r1 r2 r3 r4 r5 r6 r7 r8	<-- none
 	g0 g1 w8 g3 g4 w7 g6 g7 w6
@@ -96,7 +96,7 @@ B from initial:
 	y2 b1 b2 y1 b4 b5 y0 b7 b8
 	w0 w1 w2 w3 w4 w5 b0 b3 b6
 
-B' from initial:
+B' from initial (y2):
 	b6 b3 b0 y3 y4 y5 y6 y7 y8
 	r0 r1 r2 r3 r4 r5 r6 r7 r8	<-- none
 	g0 g1 y0 g3 g4 y1 g6 g7 y2

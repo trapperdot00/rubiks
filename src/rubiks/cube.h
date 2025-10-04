@@ -38,24 +38,6 @@ public:
 	//  - a counterclockwise flag
 	cube& turn(axis, size_t offset, bool ccw = false);
 	
-	// Rotates a layer about the X-axis
-	// Clockwise rotations on a 2x2x2 cube:
-	//  - offset of 0: L
-	//  - offset of 1: R'
-	cube& turn_x_axis(size_t offset, bool ccw = false);
-
-	// Rotates a layer about the Y-axis
-	// Clockwise rotations on a 2x2x2 cube:
-	//  - offset of 0: F
-	//  - offset of 1: B'
-	cube& turn_y_axis(size_t offset, bool ccw = false);
-
-	// Rotates a layer about the Z-axis
-	// Clockwise rotations on a 2x2x2 cube:
-	//  - offset of 0: D
-	//  - offset of 1: U'
-	cube& turn_z_axis(size_t offset, bool ccw = false);
-
 	size_t length() const { return length_; }
 	size_t tiles_per_face() const { return length_ * length_; }
 	static constexpr size_t face_count() { return 6; }

@@ -42,48 +42,12 @@ bool cube<tile_type>::solved() const {
 
 template <typename tile_type>
 cube<tile_type>& cube<tile_type>::turn(axis ax, size_t offset, bool prime) {
-	switch (ax) {
-	case axis::x:
-		return turn_x_axis(offset, prime);
-	case axis::y:
-		return turn_y_axis(offset, prime);
-	case axis::z:
-		return turn_z_axis(offset, prime);
-	default:
-		throw std::runtime_error{"invalid axis"};
-	}
-}
-
-template <typename tile_type>
-cube<tile_type>& cube<tile_type>::turn_x_axis(size_t offset, bool prime) {
 	if (offset >= length()) {
 		throw std::out_of_range{"layer offset out of range"};
 	}
-	std::vector<index_container> indices = get_turn_affected_tiles(axis::x, offset);
-	rotate_face_if_offset_at_edge(axis::x, offset, prime);
-	move(axis::x, indices, prime);
-	return *this;
-}
-
-template <typename tile_type>
-cube<tile_type>& cube<tile_type>::turn_y_axis(size_t offset, bool prime) {
-	if (offset >= length()) {
-		throw std::out_of_range{"layer offset out of range"};
-	}
-	std::vector<index_container> indices = get_turn_affected_tiles(axis::y, offset);
-	rotate_face_if_offset_at_edge(axis::y, offset, prime);
-	move(axis::y, indices, prime);
-	return *this;
-}
-
-template <typename tile_type>
-cube<tile_type>& cube<tile_type>::turn_z_axis(size_t offset, bool prime) {
-	if (offset >= length()) {
-		throw std::out_of_range{"layer offset out of range"};
-	}
-	std::vector<index_container> indices = get_turn_affected_tiles(axis::z, offset);
-	rotate_face_if_offset_at_edge(axis::z, offset, prime);
-	move(axis::z, indices, prime);
+	std::vector<index_container> indices = get_turn_affected_tiles(ax, offset);
+	rotate_face_if_offset_at_edge(ax, offset, prime);
+	move(ax, indices, prime);
 	return *this;
 }
 
@@ -276,7 +240,7 @@ size_t cube<tile_type>::translate_offset(axis ax, size_t i, size_t offset) const
 	case axis::z:
 		return length() - offset - 1;
 	default:
-		throw std::runtime_error{"invalid axis"};
+		throw std::invalid_argument{"invalid axis"};
 	}
 }
 
@@ -305,7 +269,7 @@ selection cube<tile_type>::get_turn_selection(axis ax, size_t i) const {
 	case axis::z:
 		return selection{z_faces[i], direction::horizontal};
 	default:
-		throw std::runtime_error{"invalid axis"};
+		throw std::invalid_argument{"invalid axis"};
 	}
 }
 

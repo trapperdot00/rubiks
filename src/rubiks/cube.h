@@ -89,6 +89,9 @@ private:
 	// Returns the indices of a given column or row
 	index_container get_indices(layer) const;
 
+	size_t translate_offset(axis turn_axis, size_t i, size_t offset) const;
+	selection get_turn_selection(axis turn_axis, size_t i) const;
+
 	void reset_face(size_t face);
 
 	size_t length_;

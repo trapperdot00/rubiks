@@ -59,18 +59,6 @@ cube<tile_type>& cube<tile_type>::turn(axis ax, size_t offset, bool prime) {
 
 template <typename tile_type>
 cube<tile_type>& cube<tile_type>::turn_x_axis(size_t offset, bool prime) {
-	static constexpr std::array<selection, 4> selections{{
-		{face::up,		direction::vertical},
-		{face::front,	direction::vertical},
-		{face::back,	direction::vertical},
-		{face::down,	direction::vertical}
-	}};
-	std::array<size_t, 4> offsets = {
-		offset,
-		offset,
-		length() - offset - 1,
-		offset
-	};
 	static constexpr std::array<mapping, 4> mappings{{
 		{2, 0, true},
 		{0, 1},
@@ -80,8 +68,8 @@ cube<tile_type>& cube<tile_type>::turn_x_axis(size_t offset, bool prime) {
 	const auto old_cube = tile_data;
 	std::vector<index_container> indices;
 	for (size_t i = 0; i < 4; ++i) {
-		selection curr_selection = selections[i];
-		size_t curr_offset = offsets[i];
+		selection curr_selection = get_turn_selection(axis::x, i);
+		size_t curr_offset = translate_offset(axis::x, i, offset);
 		layer curr_layer{curr_selection, curr_offset};
 		index_container affected_tiles = get_indices(curr_layer);
 		indices.push_back(std::move(affected_tiles));
@@ -102,18 +90,6 @@ cube<tile_type>& cube<tile_type>::turn_x_axis(size_t offset, bool prime) {
 
 template <typename tile_type>
 cube<tile_type>& cube<tile_type>::turn_y_axis(size_t offset, bool prime) {
-	static constexpr std::array<selection, 4> selections{{
-		{face::up,		direction::horizontal},
-		{face::right,	direction::vertical},
-		{face::left,	direction::vertical},
-		{face::down,	direction::horizontal}
-	}};
-	std::array<size_t, 4> offsets{
-		length() - offset - 1,
-		offset,
-		length() - offset - 1,
-		offset
-	};
 	static constexpr std::array<mapping, 4> mappings{{
 		{2, 0, true},
 		{0, 1},
@@ -124,8 +100,8 @@ cube<tile_type>& cube<tile_type>::turn_y_axis(size_t offset, bool prime) {
 	const auto old_cube = tile_data;
 	std::vector<index_container> indices;
 	for (size_t i = 0; i < 4; ++i) {
-		selection curr_selection = selections[i];
-		size_t curr_offset = offsets[i];
+		selection curr_selection = get_turn_selection(axis::y, i);
+		size_t curr_offset = translate_offset(axis::y, i, offset);
 		layer curr_layer{curr_selection, curr_offset};
 		index_container affected_tiles = get_indices(curr_layer);
 		indices.push_back(std::move(affected_tiles));
@@ -146,18 +122,6 @@ cube<tile_type>& cube<tile_type>::turn_y_axis(size_t offset, bool prime) {
 
 template <typename tile_type>
 cube<tile_type>& cube<tile_type>::turn_z_axis(size_t offset, bool prime) {
-	static constexpr std::array<selection, 4> selections{{
-		{face::front,	direction::horizontal},
-		{face::right,	direction::horizontal},
-		{face::back,	direction::horizontal},
-		{face::left,	direction::horizontal}
-	}};
-	std::array<size_t, 4> offsets{
-		length() - offset - 1,
-		length() - offset - 1,
-		length() - offset - 1,
-		length() - offset - 1
-	};
 	static constexpr std::array<mapping, 4> mappings{{
 		{3, 0},
 		{0, 1},
@@ -168,8 +132,8 @@ cube<tile_type>& cube<tile_type>::turn_z_axis(size_t offset, bool prime) {
 	const auto old_cube = tile_data;
 	std::vector<index_container> indices;
 	for (size_t i = 0; i < 4; ++i) {
-		selection curr_selection = selections[i];
-		size_t curr_offset = offsets[i];
+		selection curr_selection = get_turn_selection(axis::z, i);
+		size_t curr_offset = translate_offset(axis::z, i, offset);
 		layer curr_layer{curr_selection, curr_offset};
 		index_container affected_tiles = get_indices(curr_layer);
 		indices.push_back(std::move(affected_tiles));
@@ -270,6 +234,52 @@ typename cube<tile_type>::index_container cube<tile_type>::get_indices(layer s) 
 		throw std::runtime_error{"unknown direction for selection"};
 	}
 	return indices;
+}
+
+template <typename tile_type>
+size_t cube<tile_type>::translate_offset(axis ax, size_t i, size_t offset) const {
+	if (i > 3) {
+		throw std::out_of_range{"i out of range"};
+	}
+	switch (ax) {
+	case axis::x:
+		return (i == 2) ? (length() - offset - 1) : offset;
+	case axis::y:
+		return (i % 2 == 0) ? (length() - offset - 1) : offset;
+	case axis::z:
+		return length() - offset - 1;
+	default:
+		throw std::runtime_error{"invalid axis"};
+	}
+}
+
+template <typename tile_type>
+selection cube<tile_type>::get_turn_selection(axis ax, size_t i) const {
+	static constexpr std::array<face, 4> x_faces {
+		face::up, face::front, face::back, face::down
+	};
+	static constexpr std::array<face, 4> y_faces {
+		face::up, face::right, face::left, face::down
+	};
+	static constexpr std::array<face, 4> z_faces {
+		face::front, face::right, face::back, face::left
+	};
+	if (i > 3) {
+		throw std::out_of_range{"i out of range"};
+	}
+	switch (ax) {
+	case axis::x:
+		return selection{x_faces[i], direction::vertical};
+	case axis::y:
+		if (i == 0 || i == 3) {
+			return selection{y_faces[i], direction::horizontal};
+		}
+		return selection{y_faces[i], direction::vertical};
+	case axis::z:
+		return selection{z_faces[i], direction::horizontal};
+	default:
+		throw std::runtime_error{"invalid axis"};
+	}
 }
 
 }	// rubiks namespace

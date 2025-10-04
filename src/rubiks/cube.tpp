@@ -56,71 +56,79 @@ cube<tile_type>& cube<tile_type>::turn(axis ax, size_t offset, bool prime) {
 
 template <typename tile_type>
 cube<tile_type>& cube<tile_type>::turn_x_axis(size_t offset, bool prime) {
-	static constexpr std::array<mapping, 4> mappings{{
-		{2, 0, true},
-		{0, 1},
-		{3, 2, true},
-		{1, 3}
-	}};
 	if (offset >= length()) {
 		throw std::out_of_range{"layer offset out of range"};
 	}
-	const auto old_cube = tile_data;
 	std::vector<index_container> indices = get_turn_affected_tiles(axis::x, offset);
 	rotate_face_if_offset_at_edge(axis::x, offset, prime);
-	for (mapping m : mappings) {
-		if (prime) {
-			std::swap(m.from, m.to);
-		}
-		apply_movement(indices[m.from], indices[m.to], old_cube, m.reverse);
-	}
+	move(axis::x, indices, prime);
 	return *this;
 }
 
 template <typename tile_type>
 cube<tile_type>& cube<tile_type>::turn_y_axis(size_t offset, bool prime) {
-	static constexpr std::array<mapping, 4> mappings{{
-		{2, 0, true},
-		{0, 1},
-		{3, 2},
-		{1, 3, true}
-	}};
 	if (offset >= length()) {
 		throw std::out_of_range{"layer offset out of range"};
 	}
-	const auto old_cube = tile_data;
 	std::vector<index_container> indices = get_turn_affected_tiles(axis::y, offset);
 	rotate_face_if_offset_at_edge(axis::y, offset, prime);
-	for (mapping m : mappings) {
-		if (prime) {
-			std::swap(m.from, m.to);
-		}
-		apply_movement(indices[m.from], indices[m.to], old_cube, m.reverse);
-	}
+	move(axis::y, indices, prime);
 	return *this;
 }
 
 template <typename tile_type>
 cube<tile_type>& cube<tile_type>::turn_z_axis(size_t offset, bool prime) {
-	static constexpr std::array<mapping, 4> mappings{{
-		{3, 0},
-		{0, 1},
-		{1, 2},
-		{2, 3}
-	}};
 	if (offset >= length()) {
 		throw std::out_of_range{"layer offset out of range"};
 	}
-	const auto old_cube = tile_data;
 	std::vector<index_container> indices = get_turn_affected_tiles(axis::z, offset);
 	rotate_face_if_offset_at_edge(axis::z, offset, prime);
-	for (mapping m : mappings) {
+	move(axis::z, indices, prime);
+	return *this;
+}
+
+template <typename tile_type>
+void cube<tile_type>::move
+(axis ax, const std::vector<index_container>& indices, bool prime) {
+	const auto old_cube = tile_data;
+	for (mapping m : get_turn_mappings(ax)) {
 		if (prime) {
 			std::swap(m.from, m.to);
 		}
 		apply_movement(indices[m.from], indices[m.to], old_cube, m.reverse);
 	}
-	return *this;
+}
+
+template <typename tile_type>
+std::array<mapping, 4> cube<tile_type>::get_turn_mappings(axis ax) const {
+	static constexpr std::array<mapping, 4> x_mappings{{
+		{2, 0, true},
+		{0, 1},
+		{3, 2, true},
+		{1, 3}
+	}};
+	static constexpr std::array<mapping, 4> y_mappings{{
+		{2, 0, true},
+		{0, 1},
+		{3, 2},
+		{1, 3, true}
+	}};
+	static constexpr std::array<mapping, 4> z_mappings{{
+		{3, 0},
+		{0, 1},
+		{1, 2},
+		{2, 3}
+	}};
+	switch (ax) {
+	case axis::x:
+		return x_mappings;
+	case axis::y:
+		return y_mappings;
+	case axis::z:
+		return z_mappings;
+	default:
+		throw std::invalid_argument{"invalid axis"};
+	}
 }
 
 template <typename tile_type>

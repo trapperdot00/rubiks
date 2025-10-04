@@ -77,6 +77,7 @@ private:
 	void rotate_face(face side, bool prime = false);
 	void rotate_face_if_offset_at_edge(axis turn_axis, size_t offset, bool prime);
 
+	void move(axis ax, const std::vector<index_container>& indices, bool prime);
 	// Copies the selected tiles from old_tile_data
 	// into the current tile_data
 	// The selected old tiles are denoted by the indices in src,
@@ -88,6 +89,7 @@ private:
 						bool reverse = false);
 
 	std::vector<index_container> get_turn_affected_tiles(axis ax, size_t offset) const;
+	std::array<mapping, 4> get_turn_mappings(axis turn_axis) const;
 
 	// Returns the indices of a given column or row
 	index_container get_indices(layer) const;

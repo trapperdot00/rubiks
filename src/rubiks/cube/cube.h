@@ -5,7 +5,7 @@
 #include "movement.h"
 #include "mapping.h"
 #include "cube_utils.h"
-#include "colored_tile.h"
+#include "../tile/colored_tile.h"
 
 #include <vector>
 #include <stdexcept>

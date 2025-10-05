@@ -1,7 +1,7 @@
 #ifndef CLI_GAME_H
 #define CLI_GAME_H
 
-#include "../cube.h"
+#include "../cube/cube.h"
 
 #include <iostream>
 #include <iomanip>

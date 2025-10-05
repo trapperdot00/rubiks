@@ -1,5 +1,5 @@
-#include "../src/rubiks/game/cli_game.h"
-#include "../src/rubiks/tile/colored_numbered_tile.h"
+#include "../../src/game/cli_game.h"
+#include "../../src/tile/colored_numbered_tile.h"
 
 #include <string>
 

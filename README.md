@@ -35,8 +35,6 @@ With NxNxN cubes, the offset can take up any value from the range `[0, N)`. The 
 
 With 2x2x2 cubes, the offset can range from 0 to 1, as there are two layers to pick from. The translation from traditional notation to axis-offset notation of each possible move of a 2x2x2 cube is as follows:
 
-<img alt="Axes visualized" src="assets/3x3x3_axes.png" width="530" align="right">
-
 |Traditional|Axis-offset|
 |-----------|-----------|
 |U          |z1'        |
@@ -53,6 +51,8 @@ With 2x2x2 cubes, the offset can range from 0 to 1, as there are two layers to p
 |B'         |y1         |
 
 Using larger cubes, we have more possible moves. Here's the translation table for 3x3x3 cubes:
+
+<img alt="3x3x3 cube axes visualized" src="assets/3x3x3_axes.png" width="530" align="right">
 
 |Traditional|Axis-offset|
 |-----------|-----------|

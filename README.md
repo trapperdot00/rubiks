@@ -52,7 +52,7 @@ With 2x2x2 cubes, the offset can range from 0 to 1, as there are two layers to p
 
 Using larger cubes, we have more possible moves. Here's the translation table for 3x3x3 cubes:
 
-<img alt="3x3x3 cube axes visualized" src="assets/3x3x3_axes.png" width="750" align="right">
+<img alt="3x3x3 cube axes visualized" src="assets/3x3x3_axes.png" width="500" align="right">
 
 |Traditional|Axis-offset|
 |-----------|-----------|

@@ -28,9 +28,11 @@ Using the axis-offset notation, moves are written in the following format:
 > Offsets start from zero.
 
 ### Translation from traditional notation
+
 Each traditional, single-layer move has an **axis-offset** counterpart. Wide moves can be represented by chaining together multiple moves for each affected layer. Repeating moves, such as double moves, can be represented with two or more of the same move.
 
 With NxNxN cubes, the offset can take up any value from the range `[0, N)`. The first layer is specified by an offset of **0**, the last by an offset of **N-1**. Every possible cube is a 3D object, so the possible axes are still **x**, **y**, or **z**.
+<img alt="Axes visualized" src="assets/axes.png" width="400">
 
 With 2x2x2 cubes, the offset can range from 0 to 1, as there are two layers to pick from. The translation from traditional notation to axis-offset notation of each possible move of a 2x2x2 cube is as follows:
 

@@ -50,9 +50,9 @@ With 2x2x2 cubes, the offset can range from 0 to 1, as there are two layers to p
 |B          |y1'        |
 |B'         |y1         |
 
-Using larger cubes, we have more possible moves. Here's the translation table for 3x3x3 cubes:
+[2x2x2 cube axes visualized](assets/2x2x2_axes.png)
 
-<img alt="3x3x3 cube axes visualized" src="assets/3x3x3_axes.png" width="500" align="right">
+Using larger cubes, we have more possible moves. Here's the translation table for 3x3x3 cubes:
 
 |Traditional|Axis-offset|
 |-----------|-----------|
@@ -74,5 +74,7 @@ Using larger cubes, we have more possible moves. Here's the translation table fo
 |E'         |z1'        |
 |S          |y1         |
 |S'         |y1'        |
+
+[3x3x3 cube axes visualized](assets/3x3x3_axes.png)
 
 Note that the offset range increased by one, and to refer to the last layer (as in U or B), we need to supply `N-1` as the offset.

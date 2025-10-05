@@ -5,9 +5,9 @@ This project simulates NxNxN Rubik's cubes.
 To allow moves on arbitrarily sized cubes, a new notation must be specified: an **axis**, an **offset** from the origin, and the **direction** of the rotation.
 
 - **Axis:** one of the axes in the 3D coordinate space: **x**, **y**, or **z**.
-- **Offset:** a nonnegative integer that specifies the splice (row or column) to rotate. Its value is the distance from the origin.
+- **Offset:** a nonnegative integer that specifies the slice (row or column) to rotate. Its value is the layer's distance from the origin.
 - **Origin:** The subcube that is found at the cube's leftmost column, lowest row, at the closest position. Its position doesn't change.
-- **Direction:** a boolean flag that specifies whether to rotate the selected splice in a clockwise or a counter-clockwise direction. By default, it is set to **false**, meaning that rotation is done in a clockwise manner.
+- **Direction:** a boolean flag that specifies whether to rotate the selected slice in a clockwise or a counter-clockwise direction. By default, it is set to **false**, meaning that rotation is done in a clockwise manner.
 
 ### Writing format
 

@@ -8,6 +8,9 @@ cube<tile_type>::cube(size_t length) :
 	length_{length},
 	tile_data(face_count(), face_container(tiles_per_face()))
 {
+	if (length_ == 0) {
+		throw std::invalid_argument{"construction of 0x0x0 Rubik's cube not possible"};
+	}
 	reset();
 }
 

@@ -1,4 +1,5 @@
 CXX := g++
+CXXFLAGS := -I../../src/cube -I../../src/game -I../../src/tile
 SRCS := $(shell find -name '*.cpp')
 BUILD_DIR := ../../build/examples/basic_game
 OBJS := $(SRCS:%.cpp=$(BUILD_DIR)/%.o)
@@ -11,10 +12,10 @@ library:
 
 $(BUILD_DIR)/%.o: %.cpp
 	@mkdir -p $(dir $@)
-	$(CXX) -c $< -o $@
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 basic_game.out:
-	$(CXX) $(shell find ../../build/src -name '*.o') $(OBJS) -o $@
+	$(CXX) $(CXXFLAGS) $(shell find ../../build/src -name '*.o') $(OBJS) -o $@
 
 .PHONY: clean
 clean:

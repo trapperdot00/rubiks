@@ -1,6 +1,63 @@
 # NxNxN Rubik's cube simulator
 This project simulates NxNxN Rubik's cubes.
 
+## Library structure
+Classes, functions included in this library live under the `rubiks` namespace.
+
+The project consists of three individual modules, each inside its own directory:
+
+### `src/cube/`
+Contains logic for handling cube slice turnings, face rotations for arbitrarily sized cubes.
+
+#### `axis` enumeration:
+Contains enumerators `x`, `y`, and `z` to represent an axis in the 3D space. Used by users for cube turning.
+
+#### `cube` class
+Template class that represents the cube as a whole as NxNxN tiles.
+
+Allows slice turning using the **axis-offset** notation:
+
+- **Axis**: from the `axis` enumeration
+- **Offset**: unsigned integer specifying the slice to turn
+- **Direction**: optional boolean specifying counterclockwise rotation
+
+The tile type is provided as a template argument.
+
+### `src/tile/`
+Handles tile representation and console output.
+
+#### `color` enumeration
+Defines the six standard cube colors available for tiles.
+
+#### `tile_base` abstract base class
+Stores the members that inheriting tiles must contain, such as data to identify the tile's starting position: face and tile number, and conversion to string.
+
+#### `colored_tile`
+Supplies tiles with colors for each face.
+
+Console output is done using this format: `<color>`, where **color** is a single character.
+
+#### `numbered_tile`
+Supplies tiles with unique numbers for each face.
+
+Console output is done using this format: `<number>`, where **number** is an unsigned integer.
+
+#### `static_numbered_tile`
+Assigns numbers to each tile that are unique to the cube.
+
+#### `colored_numbered_tile`
+Provides tiles with color and numbering.
+
+Console output format: `<color><number>`.
+
+### `src/game/`
+Allows the user to interact and play with cubes.
+
+#### `cli_game`
+Encapsulates the shuffling logic and game session logic for cubes.
+
+Allows users to play with cubes from the command line.
+
 ## The axis-offset movement notation
 To allow moves on arbitrarily sized cubes, a new notation must be specified: an **axis**, an **offset** from the origin, and the **direction** of the rotation.
 

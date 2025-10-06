@@ -1,22 +1,7 @@
-#ifndef CUBE_TPP
-#define CUBE_TPP
+#ifndef CUBE_PRIVATE_TPP
+#define CUBE_PRIVATE_TPP
 
 namespace rubiks {
-
-template <typename tile_type>
-cube<tile_type>::cube(size_t length) :
-	length_{length},
-	tile_data(face_count(), face_container(tiles_per_face()))
-{
-	reset();
-}
-
-template <typename tile_type>
-void cube<tile_type>::reset() {
-	for (size_t face = 0; face < face_count(); ++face) {
-		reset_face(face);
-	}
-}
 
 template <typename tile_type>
 void cube<tile_type>::reset_face(size_t face) {
@@ -26,29 +11,41 @@ void cube<tile_type>::reset_face(size_t face) {
 }
 
 template <typename tile_type>
-bool cube<tile_type>::solved() const {
-	for (size_t i = 0; i < face_count(); ++i) {
-		if (std::adjacent_find(tile_data[i].cbegin(),
-			tile_data[i].cend(),
-			[](const auto& a, const auto& b) {
-				return a != b;
-			}) != tile_data[i].cend())
-		{
-			return false;
-		}
-	}
-	return true;
+void cube<tile_type>::rotate_face(face f, bool prime) {
+	rotate_ninety_degrees(get_face(f), length(), length(), prime);
 }
 
 template <typename tile_type>
-cube<tile_type>& cube<tile_type>::turn(axis ax, size_t offset, bool prime) {
-	if (offset >= length()) {
-		throw std::out_of_range{"layer offset out of range"};
+void cube<tile_type>::rotate_face_if_offset_at_edge(axis ax, size_t offset, bool prime) {
+	if (offset == 0) {
+		switch (ax) {
+		case axis::x:
+			rotate_face(face::left, prime);
+			break;
+		case axis::y:
+			rotate_face(face::front, prime);
+			break;
+		case axis::z:
+			rotate_face(face::down, prime);
+			break;
+		default:
+			throw std::invalid_argument{"invalid axis"};
+		}
+	} else if (offset == length() - 1) {
+		switch (ax) {
+		case axis::x:
+			rotate_face(face::right, !prime);
+			break;
+		case axis::y:
+			rotate_face(face::back, !prime);
+			break;
+		case axis::z:
+			rotate_face(face::up, !prime);
+			break;
+		default:
+			throw std::invalid_argument{"invalid axis"};
+		}
 	}
-	std::vector<index_container> indices = get_turn_affected_tiles(ax, offset);
-	rotate_face_if_offset_at_edge(ax, offset, prime);
-	move(ax, indices, prime);
-	return *this;
 }
 
 template <typename tile_type>
@@ -60,38 +57,6 @@ void cube<tile_type>::move
 			std::swap(m.from, m.to);
 		}
 		apply_movement(indices[m.from], indices[m.to], old_cube, m.reverse);
-	}
-}
-
-template <typename tile_type>
-std::array<mapping, 4> cube<tile_type>::get_turn_mappings(axis ax) const {
-	static constexpr std::array<mapping, 4> x_mappings{{
-		{2, 0, true},
-		{0, 1},
-		{3, 2, true},
-		{1, 3}
-	}};
-	static constexpr std::array<mapping, 4> y_mappings{{
-		{2, 0, true},
-		{0, 1},
-		{3, 2},
-		{1, 3, true}
-	}};
-	static constexpr std::array<mapping, 4> z_mappings{{
-		{3, 0},
-		{0, 1},
-		{1, 2},
-		{2, 3}
-	}};
-	switch (ax) {
-	case axis::x:
-		return x_mappings;
-	case axis::y:
-		return y_mappings;
-	case axis::z:
-		return z_mappings;
-	default:
-		throw std::invalid_argument{"invalid axis"};
 	}
 }
 
@@ -140,71 +105,34 @@ cube<tile_type>::get_turn_affected_tiles(axis ax, size_t offset) const {
 }
 
 template <typename tile_type>
-const tile_type& cube<tile_type>::get_tile(face f, size_t row, size_t col) const {
-	if (row >= length()) {
-		throw std::out_of_range{"row out of range"};
-	}
-	if (col >= length()) {
-		throw std::out_of_range{"col out of range"};
-	}
-	const int tile = row * length() + col;
-	return tile_data.at(to_int(f)).at(tile);
-}
-
-template <typename tile_type>
-tile_type& cube<tile_type>::get_tile(face f, size_t row, size_t col) {
-	return const_cast<tile_type&>(
-		const_cast<const cube*>(this)->get_tile(f, row, col)
-	);
-}
-
-template <typename tile_type>
-const typename cube<tile_type>::face_container&
-cube<tile_type>::get_face(face f) const {
-	return tile_data.at(to_int(f));
-}
-
-template <typename tile_type>
-typename cube<tile_type>::face_container&
-cube<tile_type>::get_face(face f) {
-	return tile_data.at(to_int(f));
-}
-
-template <typename tile_type>
-void cube<tile_type>::rotate_face(face f, bool prime) {
-	rotate_ninety_degrees(get_face(f), length(), length(), prime);
-}
-
-template <typename tile_type>
-void cube<tile_type>::rotate_face_if_offset_at_edge(axis ax, size_t offset, bool prime) {
-	if (offset == 0) {
-		switch (ax) {
-		case axis::x:
-			rotate_face(face::left, prime);
-			break;
-		case axis::y:
-			rotate_face(face::front, prime);
-			break;
-		case axis::z:
-			rotate_face(face::down, prime);
-			break;
-		default:
-			throw std::invalid_argument{"invalid axis"};
-		}
-	} else if (offset == length() - 1) {
-		switch (ax) {
-		case axis::x:
-			rotate_face(face::right, !prime);
-			break;
-		case axis::y:
-			rotate_face(face::back, !prime);
-			break;
-		case axis::z:
-			rotate_face(face::up, !prime);
-			break;
-		default:
-			throw std::invalid_argument{"invalid axis"};
-		}
+std::array<mapping, 4> cube<tile_type>::get_turn_mappings(axis ax) const {
+	static constexpr std::array<mapping, 4> x_mappings{{
+		{2, 0, true},
+		{0, 1},
+		{3, 2, true},
+		{1, 3}
+	}};
+	static constexpr std::array<mapping, 4> y_mappings{{
+		{2, 0, true},
+		{0, 1},
+		{3, 2},
+		{1, 3, true}
+	}};
+	static constexpr std::array<mapping, 4> z_mappings{{
+		{3, 0},
+		{0, 1},
+		{1, 2},
+		{2, 3}
+	}};
+	switch (ax) {
+	case axis::x:
+		return x_mappings;
+	case axis::y:
+		return y_mappings;
+	case axis::z:
+		return z_mappings;
+	default:
+		throw std::invalid_argument{"invalid axis"};
 	}
 }
 

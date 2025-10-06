@@ -56,7 +56,7 @@ Allows the user to interact and play with cubes.
 #### `cli_game`
 Encapsulates the shuffling logic and game session logic for cubes.
 
-Allows users to play with cubes from the command line.
+Allows users to play with cubes from the command line, parsing axis-offset notation and calling turn on the stored cube with the appropriate arguments.
 
 ## The axis-offset movement notation
 To allow moves on arbitrarily sized cubes, a new notation must be specified: an **axis**, an **offset** from the origin, and the **direction** of the rotation.
